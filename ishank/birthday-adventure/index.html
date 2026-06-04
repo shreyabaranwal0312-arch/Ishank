@@ -685,9 +685,6 @@
               <div id="sv-hotspots" class="sv-hotspots"></div>
               <div id="sv-treasures" class="sv-treasures"></div>
               <div id="sv-bursts" class="sv-bursts" aria-hidden="true"></div>
-              <button type="button" id="sv-collect-heart" class="sv-heart-pick font-pixel">
-                ❤️ Collect Heart
-              </button>
             </div>
 
             <aside class="sv-quest-log" aria-label="Secret Valley Quest Log">
@@ -715,17 +712,34 @@
                   <h3 class="sv-quest-section__label font-pixel">Kingdom Stones</h3>
                   <div id="sv-quest-stones" class="sv-quest-stones"></div>
                 </section>
-                <div class="sv-quest-actions">
-                  <button type="button" id="sv-skip-hunt" class="sv-skip-btn font-pixel">
-                    Skip hunt → unlock next area
-                  </button>
-                  <p class="sv-skip-note">Stuck? Skip completes the valley and opens Open When Library on the map.</p>
-                </div>
+                <p class="sv-skip-note">Can’t tap the heart? Use the buttons at the bottom of the screen.</p>
               </div>
             </aside>
           </div>
 
           <p id="sv-whisper" class="sv-whisper" role="status" aria-live="polite"></p>
+
+          <div class="sv-stuck-bar" role="toolbar" aria-label="Secret Valley shortcuts">
+            <button type="button" id="sv-collect-heart" class="sv-stuck-btn sv-stuck-btn--heart font-pixel">
+              ❤️ Get Heart
+            </button>
+            <button type="button" id="sv-skip-hunt" class="sv-stuck-btn sv-stuck-btn--skip font-pixel">
+              Skip Valley → Unlock Next
+            </button>
+          </div>
+        </div>
+
+        <div id="sv-skip-modal" class="sv-popup" aria-hidden="true">
+          <div class="sv-popup__veil"></div>
+          <article class="sv-popup__card">
+            <h2 class="sv-popup__title font-pixel">Skip Secret Valley?</h2>
+            <p class="sv-popup__sub">
+              All treasures will be marked found, this area completes, and
+              <strong>Open When Library</strong> unlocks on the kingdom map.
+            </p>
+            <button type="button" id="sv-skip-confirm" class="sv-popup__btn font-pixel">Yes — skip ahead</button>
+            <button type="button" id="sv-skip-cancel" class="sv-popup__btn sv-popup__btn--muted font-pixel">Keep exploring</button>
+          </article>
         </div>
 
         <div id="sv-found-popup" class="sv-popup" aria-hidden="true">
