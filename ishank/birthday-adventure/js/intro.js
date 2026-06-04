@@ -11,6 +11,9 @@ const INTRO_LINES = [
   "Collect Memory Keys.",
   "Discover hidden clues.",
   "Unlock your final birthday reward.",
+  "",
+  "Your journey begins on the kingdom map.",
+  "Visit Hearthaven Cottage when you are ready.",
 ];
 
 const Intro = {

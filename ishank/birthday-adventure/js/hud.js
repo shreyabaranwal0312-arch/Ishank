@@ -15,8 +15,17 @@ const Hud = {
     this.codeStones = document.getElementById("hud-code-stones");
   },
 
+  syncHeight() {
+    if (!this.el || this.el.classList.contains("hud--hidden")) return;
+    const h = Math.ceil(this.el.getBoundingClientRect().height);
+    if (h > 0) {
+      document.documentElement.style.setProperty("--hud-height", `${h}px`);
+    }
+  },
+
   show() {
     this.el?.classList.remove("hud--hidden");
+    requestAnimationFrame(() => this.syncHeight());
   },
 
   hide() {
@@ -50,7 +59,11 @@ const Hud = {
         names.length ? names.join("\n") : "Achievements",
       );
     }
+
+    this.syncHeight();
   },
 };
+
+window.addEventListener("resize", () => Hud.syncHeight());
 
 window.Hud = Hud;

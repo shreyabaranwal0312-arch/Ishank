@@ -20,7 +20,10 @@
   --font-pixel: "Press Start 2P", monospace;
   --font-ui: system-ui, -apple-system, sans-serif;
 
-  --hud-height: 100px;
+  --hud-height: 132px;
+  --map-track-height: 1120px;
+  --map-pad-top: 96px;
+  --map-pad-bottom: 108px;
 
   --map-pink: #ffb8d0;
   --map-lavender: #c4b5fd;

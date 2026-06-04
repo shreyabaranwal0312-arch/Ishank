@@ -275,6 +275,7 @@ const App = {
     this.showScreen("map");
     Hud.show();
     Hud.render(this.state);
+    Hud.syncHeight();
     if (this.state.musicOn) AudioEngine.startMusic();
 
     MapScreen.init(
@@ -286,6 +287,7 @@ const App = {
   },
 
   showScreen(name) {
+    document.body.classList.toggle("app--world-map", name === "map");
     document.querySelectorAll(".screen").forEach((s) => {
       s.classList.remove("screen--active", "screen--exit");
       if (s.dataset.screen === name) {

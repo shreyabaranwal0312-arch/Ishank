@@ -2,30 +2,71 @@
 
 #screen-map {
   background: var(--map-navy);
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
 }
 
-.map-viewport {
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain;
-  box-sizing: border-box;
+.map-topbar {
+  z-index: 30;
+  text-align: center;
+  padding: 14px 16px 12px;
+  background: linear-gradient(180deg, #1a2744 0%, #0f172a 100%);
+  border-bottom: 4px solid var(--secondary);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.map-topbar__title {
+  font-size: clamp(0.48rem, 2.2vw, 0.65rem);
+  line-height: 1.8;
+  padding: 6px 0 4px;
+  color: #fff;
+  margin: 0;
+  text-shadow:
+    0 0 20px rgba(255, 184, 208, 0.8),
+    2px 2px 0 #4c1d95,
+    0 0 4px #0f172a;
+}
+
+.map-topbar__subtitle {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+
+/* Content-sized kingdom — page scroll ends at map bottom */
+.world-map {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: max-content;
+  overflow: visible;
+  background: #14532d;
 }
 
 .kingdom {
   position: relative;
   width: 100%;
-  min-height: 2100px;
-  margin: 0 auto;
-  overflow: hidden;
+  height: auto;
+  min-height: calc(var(--map-pad-top) + var(--map-track-height) + var(--map-pad-bottom));
+  margin: 0;
+  padding: var(--map-pad-top) 0 var(--map-pad-bottom);
+  box-sizing: border-box;
+  overflow: visible;
+  background: linear-gradient(180deg, #1e3a5f 0%, #34d399 72%, #14532d 100%);
 }
 
 /* ─── Ambient world layers ─── */
 .kingdom__ambient {
   position: absolute;
-  inset: 0;
+  top: var(--map-pad-top);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--map-track-height);
   pointer-events: none;
 }
 
@@ -327,53 +368,14 @@
   animation: sparkle-twinkle 2.5s ease-in-out infinite;
 }
 
-/* ─── Banner (sticky — stays readable while map scrolls) ─── */
-.kingdom__banner {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  text-align: center;
-  padding: 14px 16px 12px;
-  margin: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(15, 23, 42, 0.97) 0%,
-    rgba(15, 23, 42, 0.92) 65%,
-    rgba(15, 23, 42, 0) 100%
-  );
-  backdrop-filter: blur(6px);
-}
-
-.kingdom__title {
-  font-size: clamp(0.5rem, 2.4vw, 0.68rem);
-  line-height: 1.75;
-  padding: 4px 0 2px;
-  color: #fff;
-  text-shadow:
-    0 0 20px rgba(255, 184, 208, 0.8),
-    2px 2px 0 #4c1d95,
-    0 0 4px #0f172a;
-  margin: 0;
-  white-space: normal;
-  word-break: break-word;
-}
-
-.kingdom__subtitle {
-  font-family: var(--font-ui);
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin: 6px 0 0;
-  line-height: 1.4;
-  text-shadow: 0 1px 4px rgba(15, 23, 42, 0.6);
-}
-
 /* ─── Roads (SVG) ─── */
 .kingdom__roads {
   position: absolute;
-  inset: 60px 8px 40px;
+  top: calc(var(--map-pad-top) + 8px);
+  left: 8px;
+  right: 8px;
   width: calc(100% - 16px);
-  height: calc(100% - 100px);
+  height: calc(var(--map-track-height) - 32px);
   z-index: 4;
   pointer-events: none;
 }
@@ -401,9 +403,17 @@
 /* ─── Landmark pins container ─── */
 .kingdom__landmarks {
   position: absolute;
-  inset: 50px 0 30px;
+  top: var(--map-pad-top);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--map-track-height);
   z-index: 10;
-  min-height: 1900px;
+  pointer-events: none;
+}
+
+.kingdom__landmarks .landmark {
+  pointer-events: auto;
 }
 
 .landmark {

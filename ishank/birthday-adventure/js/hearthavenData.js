@@ -25,9 +25,9 @@ const HEARTHAVEN_TAP = {
 
 const HEARTHAVEN_BRIEFING = [
   `Welcome home, Agent ${AGENT_NAME}.`,
-  "This cottage is your safe harbor before the adventure begins.",
+  "You reached this cottage from the kingdom map — your cozy base on the quest.",
   "Explore every corner — some hide little surprises just for you.",
-  "When you're ready, follow the signpost toward Memory Forest.",
+  "When you're ready, return to the map and continue toward Memory Forest.",
 ];
 
 const HEARTHAVEN_LETTERS = [

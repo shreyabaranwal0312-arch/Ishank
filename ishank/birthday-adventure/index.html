@@ -105,7 +105,7 @@
               <button type="button" id="btn-start" class="btn-mission font-pixel">
                 <span class="btn-mission__shadow"></span>
                 <span class="btn-mission__face">
-                  START MISSION ❤️
+                  ENTER KINGDOM MAP ❤️
                   <span class="btn-mission__sparkles" aria-hidden="true"></span>
                 </span>
               </button>
@@ -997,7 +997,12 @@
 
       <!-- ═══ WORLD MAP — Handcrafted Kingdom ═══ -->
       <section id="screen-map" class="screen" data-screen="map">
-        <div class="map-viewport" id="map-viewport">
+          <header class="map-topbar">
+            <h2 class="map-topbar__title font-pixel">Birthday Adventure Kingdom</h2>
+            <p class="map-topbar__subtitle">Follow the golden road to the vault</p>
+          </header>
+
+          <div class="world-map" id="map-scroll" aria-label="Kingdom map">
           <div class="kingdom" id="map-world">
             <div class="kingdom__ambient" aria-hidden="true">
               <div class="kingdom__sky"></div>
@@ -1025,11 +1030,6 @@
               <div class="kingdom__cottage kingdom__cottage--2"></div>
             </div>
 
-            <header class="kingdom__banner">
-              <h2 class="kingdom__title font-pixel">Birthday Adventure Kingdom</h2>
-              <p class="kingdom__subtitle">Follow the golden road to the vault</p>
-            </header>
-
             <svg class="kingdom__roads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="roadGrad" x1="0%" y1="100%" x2="0%" y2="0%">
@@ -1045,7 +1045,7 @@
 
             <div id="map-locations" class="kingdom__landmarks"></div>
           </div>
-        </div>
+          </div>
 
         <div id="map-tooltip" class="map-tooltip" role="tooltip" hidden></div>
       </section>
