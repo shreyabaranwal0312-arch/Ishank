@@ -1,0 +1,349 @@
+/* ═══ Birthday Vault — final boss unlock ═══ */
+
+#screen-birthday-vault {
+  background: #050308;
+}
+
+.bv-room {
+  min-height: 100%;
+  padding: 56px 16px 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bv-back {
+  position: fixed;
+  top: 10px;
+  left: 12px;
+  z-index: 90;
+  font-size: 0.55rem;
+  padding: 10px 16px;
+  background: rgba(20, 12, 8, 0.92);
+  border: 3px solid #fbbf24;
+  color: #fef3c7;
+  cursor: pointer;
+}
+
+.bv-header {
+  text-align: center;
+  margin-bottom: 12px;
+  padding-top: 12px;
+  overflow: visible;
+}
+
+.bv-header__title {
+  font-size: clamp(0.72rem, 4vw, 1rem);
+  line-height: 2;
+  padding-top: 8px;
+  color: #fde047;
+  margin: 0 0 6px;
+}
+
+.bv-header__sub {
+  color: #fcd34d;
+  font-size: 1.05rem;
+  margin: 0;
+  opacity: 0.85;
+}
+
+.bv-scene {
+  position: relative;
+  max-width: 720px;
+  margin: 0 auto 28px;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.bv-glow {
+  position: absolute;
+  inset: 10% 5% 30%;
+  background: radial-gradient(ellipse at center bottom, rgba(251, 191, 36, 0.45), transparent 70%);
+  pointer-events: none;
+  animation: bv-glow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes bv-glow-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+.bv-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.bv-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fde047;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fbbf24;
+  animation: bv-particle-rise 2s ease-out forwards;
+}
+
+@keyframes bv-particle-rise {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-120px) scale(0.3);
+  }
+}
+
+.bv-vault {
+  position: relative;
+  width: min(480px, 92vw);
+  z-index: 2;
+}
+
+.bv-vault__frame {
+  position: relative;
+  padding: 18px;
+  background: linear-gradient(180deg, #44403c, #292524);
+  border: 8px solid #78716c;
+  border-radius: 8px;
+  box-shadow:
+    0 0 40px rgba(251, 191, 36, 0.2),
+    inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.bv-vault__chains {
+  position: absolute;
+  top: -8px;
+  left: 10%;
+  right: 10%;
+  height: 56px;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+}
+
+.bv-chain {
+  width: 20px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    180deg,
+    #71717a 0,
+    #71717a 8px,
+    #52525b 8px,
+    #52525b 16px
+  );
+  border-radius: 4px;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.5);
+  transition: transform 0.6s ease, opacity 0.6s;
+}
+
+.bv-chain--break {
+  transform: translateY(-30px) rotate(25deg);
+  opacity: 0;
+}
+
+.bv-vault__door {
+  position: relative;
+  height: 320px;
+  background: linear-gradient(180deg, #57534e 0%, #292524 50%, #1c1917 100%);
+  border: 4px solid #a8a29e;
+  border-radius: 50% 50% 4px 4px / 18% 18% 4px 4px;
+  overflow: hidden;
+  transform-origin: left center;
+  transition: transform 2.4s ease-in-out;
+}
+
+.bv-vault__door-inner {
+  position: absolute;
+  inset: 20% 25%;
+  border: 4px solid #ca8a04;
+  border-radius: 50%;
+  box-shadow: inset 0 0 30px rgba(251, 191, 36, 0.3);
+}
+
+.bv-vault__wheel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 -50px;
+  border: 8px solid #ca8a04;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fde047, #b45309);
+}
+
+.bv-vault__wheel::before,
+.bv-vault__wheel::after {
+  content: "";
+  position: absolute;
+  background: #78350f;
+}
+
+.bv-vault__wheel::before {
+  width: 6px;
+  height: 100%;
+  left: 50%;
+  margin-left: -3px;
+}
+
+.bv-vault__wheel::after {
+  height: 6px;
+  width: 100%;
+  top: 50%;
+  margin-top: -3px;
+}
+
+.bv-vault__light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(253, 224, 71, 0.35), transparent 55%);
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.bv-vault--unlocking .bv-vault__light,
+.bv-vault--open .bv-vault__light {
+  opacity: 1;
+}
+
+.bv-vault--shaking {
+  animation: bv-vault-shake 0.12s linear infinite;
+}
+
+@keyframes bv-vault-shake {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-4px, 2px); }
+  50% { transform: translate(4px, -2px); }
+  75% { transform: translate(-2px, -4px); }
+  100% { transform: translate(2px, 4px); }
+}
+
+.bv-vault--open .bv-vault__door {
+  transform: perspective(600px) rotateY(-78deg);
+}
+
+.bv-status {
+  margin-top: 20px;
+  text-align: center;
+  font-size: clamp(0.65rem, 3vw, 0.85rem);
+  color: #78716c;
+  letter-spacing: 0.15em;
+  min-height: 1.5em;
+}
+
+.bv-status--active {
+  color: #fde047;
+  animation: bv-status-blink 0.8s step-end infinite;
+  text-shadow: 0 0 20px rgba(253, 224, 71, 0.8);
+}
+
+@keyframes bv-status-blink {
+  50% { opacity: 0.4; }
+}
+
+.bv-panel {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 28px;
+  background: rgba(20, 12, 8, 0.9);
+  border: 3px solid #92400e;
+}
+
+.bv-panel__title {
+  font-size: 0.62rem;
+  color: #fcd34d;
+  margin: 0 0 12px;
+  text-align: center;
+}
+
+.bv-requirements {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+
+.bv-req {
+  display: grid;
+  grid-template-columns: 36px 1fr auto 28px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 2px solid rgba(120, 53, 15, 0.4);
+  font-size: 1rem;
+  color: #d6d3d1;
+}
+
+.bv-req--done {
+  color: #fef3c7;
+}
+
+.bv-req--done .bv-req__check {
+  color: #4ade80;
+}
+
+.bv-req__value {
+  font-size: 0.52rem;
+  color: #fbbf24;
+  text-align: right;
+}
+
+.bv-unlock-btn {
+  width: 100%;
+  font-size: 0.58rem;
+  padding: 18px;
+  background: linear-gradient(180deg, #ca8a04, #92400e);
+  border: 3px solid #fde047;
+  color: #1c1917;
+  cursor: pointer;
+}
+
+.bv-unlock-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.bv-sanctuary-entry {
+  max-width: 560px;
+  margin: 24px auto 0;
+  padding: 20px;
+  text-align: center;
+  background: rgba(30, 15, 50, 0.85);
+  border: 3px solid rgba(244, 114, 182, 0.45);
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s, transform 0.5s;
+  pointer-events: none;
+}
+
+.bv-sanctuary-entry.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.bv-sanctuary-entry__text {
+  font-size: 0.55rem;
+  color: #fde047;
+  margin: 0 0 14px;
+}
+
+.bv-sanctuary-entry__btn {
+  font-size: 0.52rem;
+  padding: 14px 20px;
+  background: linear-gradient(180deg, #7c3aed, #5b21b6);
+  border: 3px solid #f9a8d4;
+  color: #fce7f3;
+  cursor: pointer;
+  box-shadow: 0 0 24px rgba(167, 139, 250, 0.4);
+}
+
+.bv-req__icon {
+  font-size: 1.35rem;
+}
