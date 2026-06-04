@@ -8,13 +8,19 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+html,
 body {
   margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
   min-height: 100dvh;
   font-family: var(--font-ui);
   color: var(--text);
   background: var(--bg-deep);
-  overflow-x: hidden;
 }
 
 .font-pixel {
@@ -31,14 +37,12 @@ body {
 .screen--active .lm-header,
 .screen--active .ah-header,
 .screen--active .bv-header,
-.screen--active .kingdom__banner,
 .screen--active .ds-intro {
   overflow: visible;
 }
 
 .screen--active h1.font-pixel,
 .screen--active h2.font-pixel,
-.screen--active .kingdom__title,
 .screen--active .bc-title__main,
 .screen--active [class$="-header__title"],
 .screen--active [class$="__title"].font-pixel,
@@ -49,8 +53,16 @@ body {
   overflow: visible;
 }
 
+.screen--active .map-topbar__title {
+  line-height: 1.8;
+  padding-top: 6px;
+  padding-bottom: 4px;
+}
+
 .app {
-  min-height: 100dvh;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -59,6 +71,9 @@ body {
   flex: 1;
   position: relative;
   min-height: 0;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
 }
 
 .screen {

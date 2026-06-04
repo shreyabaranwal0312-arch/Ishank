@@ -22,8 +22,8 @@ const LOCATIONS = [
     id: "hearthaven",
     emoji: "🏡",
     name: "Hearthaven Cottage",
-    tagline: "Your cozy home — made just for you.",
-    unlockAfter: null,
+    tagline: "Your cozy home — tap on the map to visit.",
+    unlockAfter: null, /* available on map after intro; not the start screen */
     isHome: true,
     mapX: 50,
     mapY: 96,

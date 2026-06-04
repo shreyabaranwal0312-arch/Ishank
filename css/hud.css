@@ -189,7 +189,29 @@
   filter: grayscale(0.4);
 }
 
-#screen-map.screen--active,
+/* Reserve space for fixed HUD — screens fill viewport (padding inside 100dvh) */
+#hud:not(.hud--hidden) + .main {
+  padding-top: var(--hud-height);
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#screen-map.screen--active {
+  position: relative;
+  inset: auto;
+  top: auto;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  box-sizing: border-box;
+}
+
 #screen-hearthaven.screen--active,
 #screen-memory-forest.screen--active,
 #screen-beach-chaos.screen--active,
@@ -202,14 +224,27 @@
 #screen-birthday-vault.screen--active,
 #screen-dream-sanctuary.screen--active,
 #screen-location.screen--active {
-  top: var(--hud-height);
-  height: calc(100dvh - var(--hud-height));
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#screen-hearthaven.screen--active,
+#screen-memory-forest.screen--active,
+#screen-beach-chaos.screen--active,
+#screen-pizza-kingdom.screen--active,
+#screen-joke-dungeon.screen--active,
+#screen-secret-valley.screen--active,
+#screen-open-when.screen--active,
+#screen-love-machine.screen--active,
+#screen-achievement-hall.screen--active,
+#screen-birthday-vault.screen--active,
+#screen-location.screen--active {
   overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  padding-top: 6px;
-  box-sizing: border-box;
 }
 
 @media (max-width: 640px) {
@@ -229,4 +264,18 @@
     gap: 10px 12px;
     padding: 12px 14px;
   }
+}
+
+/* World map: document scroll, height from map content */
+body.app--world-map .app,
+body.app--world-map .main {
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+body.app--world-map #hud:not(.hud--hidden) + .main {
+  height: auto;
+  max-height: none;
+  overflow: visible;
 }

@@ -74,16 +74,21 @@ const LANDMARK_ART = {
   `,
 };
 
+const MAP_LANDMARK_BLEED_TOP = 100;
+const MAP_LANDMARK_BLEED_BOTTOM = 120;
+const MAP_PX_PER_PERCENT = 12;
+
 const MapScreen = {
   container: null,
   tooltip: null,
-  viewport: null,
+  worldEl: null,
   ambientDone: false,
+  resizeBound: false,
 
   init(getState, onSelect) {
     this.container = document.getElementById("map-locations");
     this.tooltip = document.getElementById("map-tooltip");
-    this.viewport = document.getElementById("map-viewport");
+    this.worldEl = document.getElementById("map-world");
     this.getState = getState;
     this.onSelect = onSelect;
 
@@ -94,6 +99,77 @@ const MapScreen = {
 
     this.render();
     this.drawRoads();
+    this.syncMapHeight();
+    this.bindResize();
+    this.scrollToHome();
+  },
+
+  syncMapHeight() {
+    const world = this.worldEl;
+    if (!world || typeof LOCATIONS === "undefined") return;
+
+    let minY = 100;
+    let maxY = 0;
+    LOCATIONS.forEach((loc) => {
+      minY = Math.min(minY, loc.mapY);
+      maxY = Math.max(maxY, loc.mapY);
+    });
+
+    const span = Math.max(8, maxY - minY);
+    const trackHeight = Math.max(960, Math.round(span * MAP_PX_PER_PERCENT) + 160);
+    let padTop = Math.round((minY / 100) * trackHeight) + MAP_LANDMARK_BLEED_TOP;
+    let padBottom = Math.round(((100 - maxY) / 100) * trackHeight) + MAP_LANDMARK_BLEED_BOTTOM;
+
+    world.style.setProperty("--map-track-height", `${trackHeight}px`);
+    world.style.setProperty("--map-pad-top", `${padTop}px`);
+    world.style.setProperty("--map-pad-bottom", `${padBottom}px`);
+
+    if (!this.container) return;
+
+    requestAnimationFrame(() => {
+      const layer = this.container;
+      const layerRect = layer.getBoundingClientRect();
+      let topEdge = Infinity;
+      let bottomEdge = -Infinity;
+
+      layer.querySelectorAll(".landmark").forEach((el) => {
+        const r = el.getBoundingClientRect();
+        topEdge = Math.min(topEdge, r.top);
+        bottomEdge = Math.max(bottomEdge, r.bottom);
+      });
+
+      if (topEdge === Infinity) return;
+
+      const needTop = Math.ceil(layerRect.top - topEdge + 28);
+      const needBottom = Math.ceil(bottomEdge - layerRect.bottom + 28);
+      if (needTop > padTop) {
+        padTop = needTop;
+        world.style.setProperty("--map-pad-top", `${padTop}px`);
+      }
+      if (needBottom > padBottom) {
+        padBottom = needBottom;
+        world.style.setProperty("--map-pad-bottom", `${padBottom}px`);
+      }
+    });
+  },
+
+  bindResize() {
+    if (this.resizeBound) return;
+    this.resizeBound = true;
+    window.addEventListener("resize", () => {
+      if (document.getElementById("screen-map")?.classList.contains("screen--active")) {
+        this.syncMapHeight();
+      }
+    });
+  },
+
+  scrollToHome() {
+    requestAnimationFrame(() => {
+      const home =
+        this.container?.querySelector('[data-id="hearthaven"]') ||
+        this.container?.querySelector(".landmark:not(.landmark--locked)");
+      home?.scrollIntoView({ block: "center", behavior: "instant" });
+    });
   },
 
   spawnAmbient() {
@@ -214,20 +290,6 @@ const MapScreen = {
 
       this.container.appendChild(btn);
     });
-
-    this.scrollToCurrent(state);
-  },
-
-  scrollToCurrent(state) {
-    const next = LOCATIONS.find((l) => isUnlocked(state, l.id) && !isCompleted(state, l.id));
-    const target = next || getLocation("birthday-vault");
-    if (!target || !this.viewport) return;
-    const pin = this.container?.querySelector(`[data-id="${target.id}"]`);
-    if (pin) {
-      setTimeout(() => {
-        pin.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 500);
-    }
   },
 
   showTooltip(loc, state) {

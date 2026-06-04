@@ -86,8 +86,8 @@ const SECRET_VALLEY_HOTSPOTS = [
   {
     id: "fireflies",
     label: "Fireflies",
-    top: "45%",
-    left: "28%",
+    top: "38%",
+    left: "42%",
     message: "Fireflies swirl into a tiny heart in the air.",
   },
   {
@@ -122,8 +122,8 @@ const SECRET_VALLEY_HOTSPOTS = [
   {
     id: "gate-rune",
     label: "Gate rune",
-    top: "42%",
-    left: "50%",
+    top: "28%",
+    left: "58%",
     message: "The runes hum: \"Find all memories, and I shall open.\"",
   },
   {

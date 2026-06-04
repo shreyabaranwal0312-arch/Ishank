@@ -105,7 +105,7 @@
               <button type="button" id="btn-start" class="btn-mission font-pixel">
                 <span class="btn-mission__shadow"></span>
                 <span class="btn-mission__face">
-                  START MISSION ❤️
+                  ENTER KINGDOM MAP ❤️
                   <span class="btn-mission__sparkles" aria-hidden="true"></span>
                 </span>
               </button>
@@ -712,11 +712,34 @@
                   <h3 class="sv-quest-section__label font-pixel">Kingdom Stones</h3>
                   <div id="sv-quest-stones" class="sv-quest-stones"></div>
                 </section>
+                <p class="sv-skip-note">Can’t tap the heart? Use the buttons at the bottom of the screen.</p>
               </div>
             </aside>
           </div>
 
           <p id="sv-whisper" class="sv-whisper" role="status" aria-live="polite"></p>
+
+          <div class="sv-stuck-bar" role="toolbar" aria-label="Secret Valley shortcuts">
+            <button type="button" id="sv-collect-heart" class="sv-stuck-btn sv-stuck-btn--heart font-pixel">
+              ❤️ Get Heart
+            </button>
+            <button type="button" id="sv-skip-hunt" class="sv-stuck-btn sv-stuck-btn--skip font-pixel">
+              Skip Valley → Unlock Next
+            </button>
+          </div>
+        </div>
+
+        <div id="sv-skip-modal" class="sv-popup" aria-hidden="true">
+          <div class="sv-popup__veil"></div>
+          <article class="sv-popup__card">
+            <h2 class="sv-popup__title font-pixel">Skip Secret Valley?</h2>
+            <p class="sv-popup__sub">
+              All treasures will be marked found, this area completes, and
+              <strong>Open When Library</strong> unlocks on the kingdom map.
+            </p>
+            <button type="button" id="sv-skip-confirm" class="sv-popup__btn font-pixel">Yes — skip ahead</button>
+            <button type="button" id="sv-skip-cancel" class="sv-popup__btn sv-popup__btn--muted font-pixel">Keep exploring</button>
+          </article>
         </div>
 
         <div id="sv-found-popup" class="sv-popup" aria-hidden="true">
@@ -997,7 +1020,12 @@
 
       <!-- ═══ WORLD MAP — Handcrafted Kingdom ═══ -->
       <section id="screen-map" class="screen" data-screen="map">
-        <div class="map-viewport" id="map-viewport">
+          <header class="map-topbar">
+            <h2 class="map-topbar__title font-pixel">Birthday Adventure Kingdom</h2>
+            <p class="map-topbar__subtitle">Follow the golden road to the vault</p>
+          </header>
+
+          <div class="world-map" id="map-scroll" aria-label="Kingdom map">
           <div class="kingdom" id="map-world">
             <div class="kingdom__ambient" aria-hidden="true">
               <div class="kingdom__sky"></div>
@@ -1025,11 +1053,6 @@
               <div class="kingdom__cottage kingdom__cottage--2"></div>
             </div>
 
-            <header class="kingdom__banner">
-              <h2 class="kingdom__title font-pixel">Birthday Adventure Kingdom</h2>
-              <p class="kingdom__subtitle">Follow the golden road to the vault</p>
-            </header>
-
             <svg class="kingdom__roads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
               <defs>
                 <linearGradient id="roadGrad" x1="0%" y1="100%" x2="0%" y2="0%">
@@ -1045,7 +1068,7 @@
 
             <div id="map-locations" class="kingdom__landmarks"></div>
           </div>
-        </div>
+          </div>
 
         <div id="map-tooltip" class="map-tooltip" role="tooltip" hidden></div>
       </section>

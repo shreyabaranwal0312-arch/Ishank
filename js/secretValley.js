@@ -24,6 +24,7 @@ const SecretValley = {
     this.updateQuestLog();
     this.renderQuestRunes();
     this.renderQuestStones();
+    this.syncStuckBar();
 
     const state = this.getState();
     if (
@@ -46,18 +47,28 @@ const SecretValley = {
     const layer = document.getElementById("sv-treasures");
     if (!layer) return;
 
-    layer.innerHTML = SECRET_VALLEY_TREASURES.map((t) => {
-      const zoneClass = `sv-treasure-zone sv-treasure-zone--${t.zone}`;
-      return `
-      <div class="${zoneClass}" data-zone="${t.zone}">
-        <button type="button" class="sv-treasure sv-treasure--${t.id}" data-treasure="${t.id}"
-          aria-label="Search for ${t.name}">
-          <span class="sv-treasure__shimmer" aria-hidden="true"></span>
-          <span class="sv-treasure__object">${t.emoji}</span>
-          <span class="sv-treasure__hint">${t.hint}</span>
-        </button>
-      </div>`;
-    }).join("");
+    layer.innerHTML = SECRET_VALLEY_TREASURES.map(
+      (t) => `
+      <button type="button"
+        class="sv-treasure-zone sv-treasure-zone--${t.zone} sv-treasure sv-treasure--${t.id}"
+        data-treasure="${t.id}"
+        data-zone="${t.zone}"
+        aria-label="Search for ${t.name}">
+        <span class="sv-treasure__shimmer" aria-hidden="true"></span>
+        <span class="sv-treasure__object">${t.emoji}</span>
+        <span class="sv-treasure__hint">${t.hint}</span>
+      </button>`,
+    ).join("");
+
+    layer.querySelectorAll(".sv-treasure").forEach((btn) => {
+      const onPick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!btn.disabled) this.collectTreasure(btn.dataset.treasure);
+      };
+      btn.addEventListener("click", onPick);
+      btn.addEventListener("touchend", onPick, { passive: false });
+    });
   },
 
   renderHotspots() {
@@ -109,11 +120,6 @@ const SecretValley = {
     if (this._bound) return;
     this._bound = true;
 
-    document.getElementById("sv-treasures")?.addEventListener("click", (e) => {
-      const btn = e.target.closest(".sv-treasure");
-      if (btn && !btn.disabled) this.collectTreasure(btn.dataset.treasure);
-    });
-
     document.getElementById("sv-hotspots")?.addEventListener("click", (e) => {
       const btn = e.target.closest(".sv-hotspot");
       if (btn) this.clickHotspot(btn.dataset.hotspot);
@@ -135,6 +141,100 @@ const SecretValley = {
       this.hideComplete();
       App.goToMap(false);
     });
+
+    document.getElementById("sv-collect-heart")?.addEventListener("click", () => {
+      this.collectHeartFallback();
+    });
+
+    document.getElementById("sv-skip-hunt")?.addEventListener("click", () => {
+      this.showSkipModal();
+    });
+
+    document.getElementById("sv-skip-confirm")?.addEventListener("click", () => {
+      this.hideSkipModal();
+      this.skipHunt(true);
+    });
+
+    document.getElementById("sv-skip-cancel")?.addEventListener("click", () => {
+      AudioEngine.playSfx("select");
+      this.hideSkipModal();
+    });
+
+    document.getElementById("sv-quest-objects")?.addEventListener("click", (e) => {
+      const pick = e.target.closest("[data-pick-treasure]");
+      if (pick) this.collectTreasure(pick.dataset.pickTreasure);
+    });
+  },
+
+  syncStuckBar() {
+    const heartBtn = document.getElementById("sv-collect-heart");
+    const skipBtn = document.getElementById("sv-skip-hunt");
+    const bar = document.querySelector(".sv-stuck-bar");
+    const done = isCompleted(this.getState(), "secret-valley");
+    const heartFound = this.isFound("heart");
+
+    if (heartBtn) {
+      heartBtn.hidden = heartFound || done;
+      heartBtn.disabled = heartFound || done;
+    }
+    if (skipBtn) {
+      skipBtn.hidden = done;
+      skipBtn.disabled = done;
+    }
+    if (bar) bar.hidden = done;
+  },
+
+  showSkipModal() {
+    if (isCompleted(this.getState(), "secret-valley")) {
+      App.goToMap(false);
+      return;
+    }
+    AudioEngine.playSfx("select");
+    const modal = document.getElementById("sv-skip-modal");
+    modal?.classList.add("is-open");
+    modal?.setAttribute("aria-hidden", "false");
+  },
+
+  hideSkipModal() {
+    document.getElementById("sv-skip-modal")?.classList.remove("is-open");
+    document.getElementById("sv-skip-modal")?.setAttribute("aria-hidden", "true");
+  },
+
+  collectHeartFallback() {
+    if (this.isFound("heart")) return;
+    AudioEngine.playSfx("select");
+    this.collectTreasure("heart");
+  },
+
+  skipHunt(confirmed) {
+    const state = this.getState();
+    if (isCompleted(state, "secret-valley")) {
+      AudioEngine.playSfx("select");
+      App.goToMap(false);
+      return;
+    }
+
+    if (!confirmed) {
+      this.showSkipModal();
+      return;
+    }
+
+    SECRET_VALLEY_TREASURES.forEach((t) => {
+      if (!state.secretValley.found.includes(t.id)) {
+        state.secretValley.found.push(t.id);
+      }
+    });
+    this.persist();
+    this.hideFoundPopup();
+    this.syncTreasures();
+    this.syncStuckBar();
+    this.updateQuestLog();
+    this.renderQuestRunes();
+    this.renderQuestStones();
+    Hud.render(state);
+    this.showWhisper("The meadow gifts you its memories — onward to the next chapter.");
+    AudioEngine.playSfx("success");
+    this.finishHunt();
   },
 
   clickHotspot(id) {
@@ -185,7 +285,7 @@ const SecretValley = {
       const found = this.isFound(btn.dataset.treasure);
       btn.disabled = found;
       btn.classList.toggle("sv-treasure--found", found);
-      btn.closest(".sv-treasure-zone")?.classList.toggle("sv-treasure-zone--cleared", found);
+      btn.classList.toggle("sv-treasure-zone--cleared", found);
     });
   },
 
@@ -202,11 +302,15 @@ const SecretValley = {
 
     list.innerHTML = SECRET_VALLEY_TREASURES.map((t) => {
       const found = this.isFound(t.id);
+      const pickBtn = !found
+        ? `<button type="button" class="sv-quest-pick font-pixel" data-pick-treasure="${t.id}">Get</button>`
+        : "";
       return `
         <li class="sv-quest-row ${found ? "sv-quest-row--done" : ""}">
           <span class="sv-quest-row__icon">${t.emoji}</span>
           <span class="sv-quest-row__name">${t.name}</span>
           <span class="sv-quest-row__mark">${found ? "✓" : "?"}</span>
+          ${pickBtn}
         </li>`;
     }).join("");
 
@@ -251,6 +355,7 @@ const SecretValley = {
 
     AudioEngine.playSfx("success");
     this.syncTreasures();
+    this.syncStuckBar();
     this.updateQuestLog();
     this.renderQuestRunes();
     this.renderQuestStones();
@@ -338,6 +443,7 @@ const SecretValley = {
     }
 
     this.syncGate();
+    this.syncStuckBar();
     this.renderQuestStones();
     Hud.render(this.getState());
 
@@ -377,6 +483,7 @@ const SecretValley = {
     if (this.finishTimer) clearTimeout(this.finishTimer);
     if (this._whisperTimer) clearTimeout(this._whisperTimer);
     this.hideFoundPopup();
+    this.hideSkipModal();
     this.hideComplete();
     document.getElementById("sv-stage")?.classList.remove("sv-stage--celebrate", "sv-stage--finale");
   },
