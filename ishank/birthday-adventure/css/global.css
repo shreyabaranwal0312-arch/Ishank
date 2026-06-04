@@ -38,7 +38,6 @@ body {
 
 .screen--active h1.font-pixel,
 .screen--active h2.font-pixel,
-.screen--active .kingdom__title,
 .screen--active .bc-title__main,
 .screen--active [class$="-header__title"],
 .screen--active [class$="__title"].font-pixel,
@@ -47,6 +46,13 @@ body {
   padding-top: 10px;
   padding-bottom: 6px;
   overflow: visible;
+}
+
+/* Map title uses its own spacing (sticky banner) */
+.screen--active .kingdom__title {
+  line-height: 1.75;
+  padding-top: 4px;
+  padding-bottom: 2px;
 }
 
 .app {

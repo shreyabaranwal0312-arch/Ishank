@@ -6,10 +6,11 @@
 
 .map-viewport {
   height: 100%;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  padding-top: 8px;
+  overscroll-behavior-y: contain;
   box-sizing: border-box;
 }
 
@@ -18,8 +19,7 @@
   width: 100%;
   min-height: 2100px;
   margin: 0 auto;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: hidden;
 }
 
 /* ─── Ambient world layers ─── */
@@ -327,34 +327,44 @@
   animation: sparkle-twinkle 2.5s ease-in-out infinite;
 }
 
-/* ─── Banner ─── */
+/* ─── Banner (sticky — stays readable while map scrolls) ─── */
 .kingdom__banner {
-  position: relative;
-  z-index: 8;
+  position: sticky;
+  top: 0;
+  z-index: 30;
   text-align: center;
-  padding: 40px 16px 14px;
-  margin-top: 4px;
+  padding: 14px 16px 12px;
+  margin: 0;
   pointer-events: none;
-  overflow: visible;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.97) 0%,
+    rgba(15, 23, 42, 0.92) 65%,
+    rgba(15, 23, 42, 0) 100%
+  );
+  backdrop-filter: blur(6px);
 }
 
 .kingdom__title {
-  font-size: clamp(0.55rem, 2.5vw, 0.7rem);
-  line-height: 2;
-  padding-top: 10px;
+  font-size: clamp(0.5rem, 2.4vw, 0.68rem);
+  line-height: 1.75;
+  padding: 4px 0 2px;
   color: #fff;
   text-shadow:
     0 0 20px rgba(255, 184, 208, 0.8),
     2px 2px 0 #4c1d95,
     0 0 4px #0f172a;
   margin: 0;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .kingdom__subtitle {
   font-family: var(--font-ui);
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.9);
-  margin: 8px 0 0;
+  margin: 6px 0 0;
+  line-height: 1.4;
   text-shadow: 0 1px 4px rgba(15, 23, 42, 0.6);
 }
 

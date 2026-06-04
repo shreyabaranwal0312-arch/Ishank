@@ -189,7 +189,13 @@
   filter: grayscale(0.4);
 }
 
-#screen-map.screen--active,
+#screen-map.screen--active {
+  top: var(--hud-height);
+  height: calc(100dvh - var(--hud-height));
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
 #screen-hearthaven.screen--active,
 #screen-memory-forest.screen--active,
 #screen-beach-chaos.screen--active,

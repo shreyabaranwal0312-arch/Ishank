@@ -94,6 +94,12 @@ const MapScreen = {
 
     this.render();
     this.drawRoads();
+    this.resetScroll();
+  },
+
+  resetScroll() {
+    if (!this.viewport) return;
+    this.viewport.scrollTop = 0;
   },
 
   spawnAmbient() {
@@ -214,20 +220,6 @@ const MapScreen = {
 
       this.container.appendChild(btn);
     });
-
-    this.scrollToCurrent(state);
-  },
-
-  scrollToCurrent(state) {
-    const next = LOCATIONS.find((l) => isUnlocked(state, l.id) && !isCompleted(state, l.id));
-    const target = next || getLocation("birthday-vault");
-    if (!target || !this.viewport) return;
-    const pin = this.container?.querySelector(`[data-id="${target.id}"]`);
-    if (pin) {
-      setTimeout(() => {
-        pin.scrollIntoView({ behavior: "smooth", block: "center" });
-      }, 500);
-    }
   },
 
   showTooltip(loc, state) {

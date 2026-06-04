@@ -48,7 +48,7 @@ const App = {
       Intro.playWarp(() => {
         this.state.hasStarted = true;
         this.persist();
-        this.goToHearthaven(true);
+        this.goToMap(true);
       });
     });
   },
