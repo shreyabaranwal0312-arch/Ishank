@@ -1,0 +1,622 @@
+/* ═══ Pizza Kingdom — Whimsical Village ═══ */
+
+.pk-page {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #2a1408;
+  position: relative;
+  overflow: visible;
+  padding-bottom: 24px;
+}
+
+.pk-back {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  z-index: 50;
+  font-size: 0.45rem;
+  padding: 8px 12px;
+  background: rgba(60, 30, 10, 0.9);
+  border: 3px solid #f9c74f;
+  color: #ffe8b0;
+  cursor: pointer;
+}
+
+.pk-header {
+  flex-shrink: 0;
+  text-align: center;
+  padding: 18px 16px 8px;
+  z-index: 10;
+  overflow: visible;
+}
+
+.pk-header__title {
+  font-size: clamp(0.58rem, 3vw, 0.72rem);
+  color: #ffe880;
+  margin: 0;
+  line-height: 2;
+  padding-top: 8px;
+  text-shadow: 0 0 16px rgba(255, 160, 60, 0.6);
+}
+
+.pk-header__sub {
+  font-family: var(--font-ui);
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  color: rgba(255, 230, 200, 0.95);
+  margin: 6px 0 0;
+  line-height: 1.4;
+}
+
+.pk-progress {
+  text-align: center;
+  font-size: clamp(0.48rem, 2.5vw, 0.55rem);
+  color: #ffc878;
+  padding: 6px 12px 8px;
+  letter-spacing: 0.04em;
+}
+
+/* Village scenery */
+.pk-village {
+  position: relative;
+  flex: 0 0 min(38vh, 220px);
+  min-height: 160px;
+  margin: 0 8px;
+  border: 4px solid #c87830;
+  overflow: hidden;
+}
+
+.pk-village__sky {
+  position: absolute;
+  inset: 0 0 30%;
+  background: linear-gradient(180deg, #ff9858 0%, #ffb878 35%, #ffd8a8 100%);
+  animation: pk-sky-glow 6s ease-in-out infinite;
+}
+
+.pk-village__sun {
+  position: absolute;
+  top: 12%;
+  left: 15%;
+  width: 40px;
+  height: 40px;
+  background: #ffe880;
+  border: 3px solid #f9a030;
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(255, 200, 80, 0.8);
+}
+
+.pk-cheese-river {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22%;
+  height: 18%;
+  background: linear-gradient(180deg, #f9d060, #e8a830, #d89828);
+  overflow: hidden;
+}
+
+.pk-cheese-river::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 12px,
+    rgba(255, 240, 180, 0.25) 12px,
+    rgba(255, 240, 180, 0.25) 20px
+  );
+  animation: pk-river-flow 3s linear infinite;
+}
+
+.pk-cheese-river__shine {
+  position: absolute;
+  top: 20%;
+  left: -20%;
+  width: 40%;
+  height: 30%;
+  background: rgba(255, 255, 220, 0.4);
+  border-radius: 50%;
+  animation: pk-river-shine 4s ease-in-out infinite;
+}
+
+.pk-ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  background: linear-gradient(180deg, #d8a050, #b87838);
+}
+
+/* Pizza castle */
+.pk-castle {
+  position: absolute;
+  left: 50%;
+  bottom: 24%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 110px;
+  z-index: 5;
+}
+
+.pk-castle__base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 50px;
+  background: #e8c878;
+  border: 4px solid #8a5830;
+}
+
+.pk-castle__tower {
+  position: absolute;
+  bottom: 40px;
+  width: 24px;
+  height: 45px;
+  background: #f0d090;
+  border: 3px solid #8a5830;
+}
+
+.pk-castle__tower--l { left: 8px; }
+.pk-castle__tower--r { right: 8px; }
+
+.pk-castle__roof {
+  position: absolute;
+  bottom: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 28px;
+  background: #e85848;
+  clip-path: polygon(5% 100%, 50% 0, 95% 100%);
+  border-bottom: 4px solid #8a3020;
+}
+
+.pk-castle__roof::after {
+  content: "🍕";
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+}
+
+.pk-castle__flag {
+  position: absolute;
+  bottom: 95px;
+  left: 50%;
+  width: 3px;
+  height: 20px;
+  background: #5a3820;
+}
+
+.pk-castle__flag::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 3px;
+  width: 14px;
+  height: 10px;
+  background: #f9c74f;
+  border: 2px solid #8a5830;
+}
+
+/* Pizza houses */
+.pk-house {
+  position: absolute;
+  bottom: 26%;
+  width: 44px;
+  height: 48px;
+  z-index: 4;
+}
+
+.pk-house--l { left: 8%; }
+.pk-house--r { right: 8%; }
+
+.pk-house__body {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 28px;
+  background: #f0d8b0;
+  border: 3px solid #8a5830;
+}
+
+.pk-house__roof {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 18px;
+  background: #e87050;
+  clip-path: polygon(10% 100%, 50% 0, 90% 100%);
+  border-bottom: 3px solid #8a3020;
+}
+
+.pk-house__roof::after {
+  content: "🍕";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+}
+
+/* Matching game panel */
+.pk-game {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px 14px 20px;
+  z-index: 10;
+  background: rgba(30, 14, 6, 0.5);
+  margin: 0 10px;
+  border: 3px solid rgba(200, 140, 60, 0.35);
+  border-radius: 6px;
+}
+
+.pk-game__hint {
+  font-family: var(--font-ui);
+  font-size: clamp(0.92rem, 2.8vw, 1.02rem);
+  text-align: center;
+  color: rgba(255, 228, 200, 0.92);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.pk-game__section {
+  font-size: clamp(0.44rem, 2.2vw, 0.52rem);
+  color: #f9c74f;
+  margin: 4px 0 0;
+  letter-spacing: 0.06em;
+}
+
+.pk-zones {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.pk-zone {
+  padding: 12px;
+  background: rgba(50, 28, 12, 0.75);
+  border: 3px dashed rgba(200, 152, 72, 0.65);
+  border-radius: 6px;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+
+.pk-zone__emoji {
+  font-size: 1.35rem;
+  display: block;
+  line-height: 1;
+}
+
+.pk-zone__label {
+  display: block;
+  font-size: clamp(0.44rem, 2.2vw, 0.52rem);
+  color: #ffd898;
+  margin: 6px 0 8px;
+}
+
+.pk-zone__slot {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.22);
+  border: 2px solid rgba(200, 150, 80, 0.35);
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.pk-zone__hint {
+  font-family: var(--font-ui);
+  font-size: clamp(0.88rem, 2.6vw, 0.98rem);
+  color: rgba(255, 220, 180, 0.55);
+}
+
+.pk-zone__filled {
+  font-family: var(--font-ui);
+  font-size: clamp(0.9rem, 2.6vw, 1rem);
+  font-weight: 600;
+  color: #fff8e8;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.pk-zone--hover {
+  border-color: #f9c74f;
+  background: rgba(249, 199, 79, 0.12);
+  transform: scale(1.02);
+}
+
+.pk-zone--done {
+  border-style: solid;
+  border-color: #7ec878;
+  background: rgba(80, 160, 80, 0.15);
+}
+
+.pk-zone--shake {
+  animation: pk-shake 0.45s ease;
+}
+
+.pk-zone--pop {
+  animation: pk-pop 0.4s ease;
+}
+
+.pk-answers {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding-top: 2px;
+}
+
+@media (min-width: 480px) {
+  .pk-answers {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.pk-chip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 14px 12px;
+  background: linear-gradient(180deg, #f5e0b0, #e0c070);
+  border: 3px solid #8a5830;
+  border-radius: 6px;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  box-shadow: 0 3px 0 #6a4020;
+}
+
+.pk-chip:active {
+  cursor: grabbing;
+}
+
+.pk-chip--dragging {
+  opacity: 0.4;
+}
+
+.pk-chip--ghost {
+  position: fixed;
+  z-index: 500;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.96;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border-radius: 6px;
+}
+
+.pk-chip__emoji {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.pk-chip__label {
+  font-family: var(--font-ui);
+  font-size: clamp(0.88rem, 2.5vw, 0.98rem);
+  font-weight: 600;
+  color: #3a2010;
+  line-height: 1.25;
+}
+
+/* Toast */
+#pk-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--hud-height) + 16px);
+  transform: translateX(-50%) translateY(120%);
+  z-index: 180;
+  max-width: 90%;
+  padding: 14px 18px;
+  background: rgba(40, 20, 8, 0.95);
+  border: 3px solid #f9c74f;
+  text-align: center;
+  transition: transform 0.35s ease;
+  pointer-events: none;
+}
+
+.pk-toast--show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.pk-toast__title {
+  font-family: var(--font-ui);
+  font-size: 1.05rem;
+  color: #ffe880;
+  margin: 0 0 6px;
+}
+
+.pk-toast__text {
+  font-family: var(--font-ui);
+  font-size: 0.95rem;
+  color: #ffd8b0;
+  margin: 0 0 4px;
+}
+
+.pk-toast__code {
+  font-family: var(--font-ui);
+  font-size: 0.92rem;
+  color: #a8e8c8;
+  margin: 6px 0 0;
+}
+
+.pk-toast__letter {
+  font-family: var(--font-pixel);
+  font-size: 1.2rem;
+  color: #f9c74f;
+}
+
+/* Fragment reveal */
+.pk-fragment-reveal {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.pk-fragment-reveal.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.pk-fragment-reveal__veil {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(80, 40, 10, 0.92), rgba(20, 8, 4, 0.98));
+}
+
+.pk-fragment-reveal__panel {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 380px;
+  padding: 28px 22px;
+  background: linear-gradient(180deg, #4a2818, #2a1408);
+  border: 5px solid #f9c74f;
+  box-shadow: 0 0 60px rgba(249, 199, 79, 0.45);
+}
+
+.pk-fragment-reveal__title {
+  font-size: clamp(0.5rem, 3vw, 0.72rem);
+  color: #ffe880;
+  margin: 0 0 20px;
+  animation: pk-title-pulse 2s ease-in-out infinite;
+}
+
+.pk-fragment-reveal__burst {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(249, 199, 79, 0.5), transparent 70%);
+  animation: pk-burst-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+.pk-fragment-reveal__letter-wrap {
+  position: relative;
+  margin: 0 auto 20px;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pk-fragment-reveal__letter {
+  font-family: var(--font-pixel);
+  font-size: clamp(2.5rem, 12vw, 4rem);
+  color: #f9c74f;
+  text-shadow:
+    0 0 30px rgba(249, 199, 79, 1),
+    0 0 60px rgba(255, 200, 80, 0.6);
+  animation: pk-letter-rise 1s ease-out, pk-letter-glow 2s ease-in-out infinite 1s;
+}
+
+.pk-fragment-reveal__sub {
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  color: #ffd8b0;
+  margin: 0 0 12px;
+}
+
+.pk-code-display {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pk-code-slot {
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  width: 36px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  border: 3px solid #6a5040;
+  color: #888;
+}
+
+.pk-code-slot--lit {
+  color: #f9c74f;
+  border-color: #f9c74f;
+  background: rgba(249, 199, 79, 0.15);
+  box-shadow: 0 0 16px rgba(249, 199, 79, 0.5);
+  animation: pk-slot-pop 0.6s ease;
+}
+
+.pk-fragment-reveal__btn {
+  font-size: 0.45rem;
+  padding: 14px 24px;
+  background: linear-gradient(180deg, #e8c060, #a08030);
+  border: 4px solid #f9c74f;
+  color: #1a1008;
+  cursor: pointer;
+}
+
+@keyframes pk-sky-glow {
+  50% { filter: brightness(1.06); }
+}
+
+@keyframes pk-river-flow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(20px); }
+}
+
+@keyframes pk-river-shine {
+  0%, 100% { left: -20%; }
+  50% { left: 80%; }
+}
+
+@keyframes pk-shake {
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+@keyframes pk-pop {
+  50% { transform: scale(1.04); }
+}
+
+@keyframes pk-title-pulse {
+  50% { text-shadow: 0 0 28px rgba(255, 232, 128, 1); }
+}
+
+@keyframes pk-burst-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes pk-letter-rise {
+  from { opacity: 0; transform: scale(0.3) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes pk-letter-glow {
+  50% { filter: brightness(1.2); }
+}
+
+@keyframes pk-slot-pop {
+  50% { transform: scale(1.15); }
+}

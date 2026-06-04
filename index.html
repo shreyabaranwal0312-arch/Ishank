@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mission: Birthday Adventure ❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/global.css" />
+  <link rel="stylesheet" href="css/hud.css" />
+  <link rel="stylesheet" href="css/intro.css" />
+  <link rel="stylesheet" href="css/map.css" />
+  <link rel="stylesheet" href="css/map-landmarks.css" />
+  <link rel="stylesheet" href="css/hearthaven.css" />
+  <link rel="stylesheet" href="css/memory-forest.css" />
+  <link rel="stylesheet" href="css/beach-chaos.css" />
+  <link rel="stylesheet" href="css/pizza-kingdom.css" />
+  <link rel="stylesheet" href="css/joke-dungeon.css" />
+  <link rel="stylesheet" href="css/secret-valley.css" />
+  <link rel="stylesheet" href="css/open-when-library.css" />
+  <link rel="stylesheet" href="css/love-machine.css" />
+  <link rel="stylesheet" href="css/achievement-hall.css" />
+  <link rel="stylesheet" href="css/birthday-vault.css" />
+  <link rel="stylesheet" href="css/dream-sanctuary.css" />
+  <link rel="stylesheet" href="css/location.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- ═══ RPG HUD (hidden on intro) ═══ -->
+    <header id="hud" class="hud hud--hidden" aria-label="Player status">
+      <div class="hud__inner pixel-panel">
+        <div class="hud__stat" title="Hearts">
+          <span class="hud__icon">❤️</span>
+          <div class="hud__text">
+            <span class="hud__label">Hearts</span>
+            <span id="hud-hearts" class="hud__value">0</span>
+          </div>
+        </div>
+        <div class="hud__stat" title="Memory Keys">
+          <span class="hud__icon">🗝</span>
+          <div class="hud__text">
+            <span class="hud__label">Keys</span>
+            <span id="hud-keys" class="hud__value">0/4</span>
+          </div>
+        </div>
+        <div class="hud__stat hud__stat--achieve" title="Achievements">
+          <span class="hud__icon">🏆</span>
+          <div class="hud__text">
+            <span class="hud__label">Achievements</span>
+            <span id="hud-achievements" class="hud__value">0</span>
+            <span id="hud-achievement-badge" class="hud__achievement-badge" hidden></span>
+          </div>
+        </div>
+        <div class="hud__stat hud__stat--code" title="Secret Code">
+          <span class="hud__icon">📜</span>
+          <div class="hud__text">
+            <span class="hud__label">Secret Code</span>
+            <div id="hud-code-stones" class="hud__code-stones" aria-label="Secret code"></div>
+          </div>
+        </div>
+        <div class="hud__audio">
+          <button type="button" id="btn-music" class="hud__audio-btn" aria-pressed="true" title="Toggle music">🎵</button>
+          <button type="button" id="btn-sfx" class="hud__audio-btn" aria-pressed="true" title="Toggle sound effects">🔊</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="main">
+      <!-- ═══ INTRO SCREEN ═══ -->
+      <section id="screen-intro" class="screen screen--active" data-screen="intro">
+        <div class="intro" aria-label="Mission briefing">
+          <div class="intro__fx" aria-hidden="true">
+            <div class="intro__stars"></div>
+            <div class="intro__particles" id="intro-particles"></div>
+            <div class="intro__scanlines"></div>
+            <div class="intro__glow"></div>
+          </div>
+
+          <div class="intro__card pixel-panel" id="intro-card">
+            <p class="intro__classified font-pixel">CLASSIFIED — EYES ONLY</p>
+            <div class="intro__warning font-pixel" role="alert">
+              <span class="intro__warning-text">WARNING: CLASSIFIED MISSION</span>
+            </div>
+
+            <div class="intro__terminal" id="intro-terminal">
+              <p class="intro__line font-pixel" data-line="0"></p>
+              <p class="intro__line font-pixel" data-line="1"></p>
+              <p class="intro__line font-pixel intro__line--gap" data-line="2"></p>
+              <p class="intro__line font-pixel" data-line="3"></p>
+              <p class="intro__line font-pixel intro__line--gap" data-line="4"></p>
+              <p class="intro__line font-pixel" data-line="5"></p>
+              <p class="intro__line font-pixel intro__line--gap" data-line="6"></p>
+              <p class="intro__line font-pixel" data-line="7"></p>
+              <p class="intro__line font-pixel intro__line--gap" data-line="8"></p>
+              <p class="intro__line font-pixel" data-line="9"></p>
+              <p class="intro__line font-pixel" data-line="10"></p>
+              <p class="intro__line font-pixel" data-line="11"></p>
+              <p class="intro__line font-pixel intro__line--gap" data-line="12"></p>
+              <p class="intro__line font-pixel" data-line="13"></p>
+            </div>
+
+            <div class="intro__cta-wrap" id="intro-cta" hidden>
+              <button type="button" id="btn-start" class="btn-mission font-pixel">
+                <span class="btn-mission__shadow"></span>
+                <span class="btn-mission__face">
+                  START MISSION ❤️
+                  <span class="btn-mission__sparkles" aria-hidden="true"></span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="warp-overlay" class="warp-overlay" aria-hidden="true">
+          <div class="warp-overlay__stars"></div>
+        </div>
+      </section>
+
+      <!-- ═══ HEARTHAVEN COTTAGE — Explorable Home ═══ -->
+      <section id="screen-hearthaven" class="screen" data-screen="hearthaven">
+        <div class="hh-page">
+          <button type="button" id="hh-back-map" class="hh-back font-pixel">← MAP</button>
+          <header class="hh-header">
+            <button type="button" class="hh-header__tap" data-hh="village-welcome" aria-label="Village welcome">
+              <h1 class="hh-header__title font-pixel">🏡 Hearthaven Cottage</h1>
+              <p class="hh-header__sub">Your safe harbor — explore every corner</p>
+            </button>
+          </header>
+
+          <div id="hh-scene" class="hh-scene">
+            <div class="hh-scene__sky" aria-hidden="true"></div>
+            <div class="hh-scene__sunset" aria-hidden="true"></div>
+            <div class="hh-scene__rays" aria-hidden="true"></div>
+            <div class="hh-scene__fog" aria-hidden="true"></div>
+            <div class="hh-scene__hills" aria-hidden="true"></div>
+            <div class="hh-scene__ground" aria-hidden="true"></div>
+            <div id="hh-particles" class="hh-scene__particles" aria-hidden="true"></div>
+            <div id="hh-fireflies" class="hh-scene__fireflies" aria-hidden="true"></div>
+
+            <div id="hh-pond" class="hh-pond" aria-hidden="true">
+              <span class="hh-pond__water"></span>
+              <span class="hh-pond__lily hh-pond__lily--1"></span>
+              <span class="hh-pond__lily hh-pond__lily--2"></span>
+              <span class="hh-pond__duck">🦆</span>
+              <span class="hh-pond__fish"></span>
+            </div>
+
+            <div class="hh-garden" aria-hidden="true">
+              <span class="hh-garden__flower hh-garden__flower--rose"></span>
+              <span class="hh-garden__flower hh-garden__flower--lav"></span>
+              <span class="hh-garden__flower hh-garden__flower--sun"></span>
+              <span class="hh-garden__flower hh-garden__flower--daisy"></span>
+              <span class="hh-butterfly hh-butterfly--1">🦋</span>
+              <span class="hh-butterfly hh-butterfly--2">🦋</span>
+              <span class="hh-petal hh-petal--1"></span>
+              <span class="hh-petal hh-petal--2"></span>
+            </div>
+
+            <div id="hh-cottage" class="hh-cottage-art" aria-hidden="true">
+              <span class="hh-cottage-art__porch"></span>
+              <span class="hh-cottage-art__body"></span>
+              <span class="hh-cottage-art__roof"></span>
+              <span class="hh-cottage-art__window hh-cottage-art__window--l"></span>
+              <span class="hh-cottage-art__window hh-cottage-art__window--r"></span>
+              <span class="hh-cottage-art__door"></span>
+              <span class="hh-cottage-art__box hh-cottage-art__box--l"></span>
+              <span class="hh-cottage-art__box hh-cottage-art__box--r"></span>
+              <span class="hh-cottage-art__heart">♥</span>
+              <span class="hh-cottage-art__chimney"></span>
+              <span class="hh-cottage-art__smoke"></span>
+              <span class="hh-cottage-art__lantern hh-cottage-art__lantern--l"></span>
+              <span class="hh-cottage-art__lantern hh-cottage-art__lantern--r"></span>
+              <span class="hh-cottage-art__glow"></span>
+            </div>
+
+            <div class="hh-wall-art" aria-hidden="true">
+              <span class="hh-wall-art__board"></span>
+              <span class="hh-wall-art__lights"></span>
+              <span class="hh-wall-art__photo hh-wall-art__photo--1"></span>
+              <span class="hh-wall-art__photo hh-wall-art__photo--2"></span>
+            </div>
+
+            <div class="hh-mailbox-art" aria-hidden="true">
+              <span class="hh-mailbox-art__post"></span>
+              <span class="hh-mailbox-art__box"></span>
+              <span class="hh-mailbox-art__flag"></span>
+            </div>
+
+            <div class="hh-bench-art" aria-hidden="true">
+              <span class="hh-bench-art__seat"></span>
+              <span class="hh-bench-art__lantern"></span>
+            </div>
+
+            <div class="hh-desk-art" aria-hidden="true">
+              <span class="hh-desk-art__table"></span>
+              <span class="hh-desk-art__journal"></span>
+              <span class="hh-desk-art__quill"></span>
+              <span class="hh-desk-art__mug">☕</span>
+            </div>
+
+            <div class="hh-sign-art" aria-hidden="true">
+              <span class="hh-sign-art__post"></span>
+              <span class="hh-sign-art__board"></span>
+            </div>
+
+            <div class="hh-story-pedestal" aria-hidden="true">
+              <span class="hh-story-pedestal__base"></span>
+              <span class="hh-story-pedestal__book">📖</span>
+            </div>
+
+            <button type="button" class="hh-hotspot hh-hotspot--cottage" data-hh="cottage" aria-label="Main cottage — Mission briefing"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--mailbox" data-hh="mailbox" aria-label="Mailbox"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--wall" data-hh="wall" aria-label="Memory wall notice board"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--wall-photo1" data-hh="wall-photo-1" aria-label="Polaroid on notice board"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--wall-photo2" data-hh="wall-photo-2" aria-label="Polaroid on notice board"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--garden" data-hh="flower-rose-1" aria-label="Garden"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--garden2" data-hh="flower-lavender" aria-label="Lavender"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--garden3" data-hh="flower-sunflower" aria-label="Sunflowers"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--garden4" data-hh="flower-daisy" aria-label="Daisies"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--bench" data-hh="bench" aria-label="Wooden bench"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--bench-lantern" data-hh="bench-lantern" aria-label="Bench lantern"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--journal" data-hh="journal" aria-label="Mission journal"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--mug" data-hh="mug" aria-label="Coffee mug"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--sign" data-hh="signpost" aria-label="Signpost to kingdom"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--pond" data-hh="pond" aria-label="Pond"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--duck" data-hh="duck" aria-label="Duck on pond"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--fish" data-hh="fish" aria-label="Fish in pond"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--butterfly" data-hh="butterfly" aria-label="Butterfly in garden"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--story" data-hh="story" aria-label="Our Story book"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret" data-hh="secret-lantern-l" aria-label="Lantern"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret2" data-hh="secret-lantern-r" aria-label="Lantern"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret3" data-hh="secret-stone-1" aria-label="Stone"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret4" data-hh="secret-star-patch" aria-label="Star"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret5" data-hh="secret-flower-pot" aria-label="Flower pot"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret6" data-hh="secret-fence-heart" aria-label="Fence"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret7" data-hh="secret-chimney" aria-label="Chimney"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret8" data-hh="secret-porch-step" aria-label="Porch"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret9" data-hh="secret-garden-gnome" aria-label="Garden gnome"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret10" data-hh="secret-pond-lily" aria-label="Lily pad"></button>
+            <button type="button" class="hh-hotspot hh-hotspot--secret11" data-hh="secret-bee" aria-label="Bee"></button>
+
+            <button type="button" id="hh-cat" class="hh-cat" data-hh="cat" aria-label="Village cat"></button>
+          </div>
+
+          <p class="hh-hint">Tap anything — every object has a message · Secrets grant +1 ♥</p>
+        </div>
+
+        <div id="hh-modal-backdrop" class="hh-modal-backdrop" aria-hidden="true">
+          <div class="hh-modal pixel-panel" role="dialog" aria-labelledby="hh-modal-title">
+            <button type="button" class="hh-modal__x" data-hh-close aria-label="Close">×</button>
+            <h2 id="hh-modal-title" class="hh-modal__title font-pixel"></h2>
+            <div id="hh-modal-panel" class="hh-modal__panel"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ MEMORY FOREST — Enchanted Quiz Level ═══ -->
+      <section id="screen-memory-forest" class="screen" data-screen="memory-forest">
+        <div class="mf-level">
+          <button type="button" id="mf-back-map" class="mf-back font-pixel">← MAP</button>
+
+          <div id="mf-forest" class="mf-forest">
+            <div class="mf-forest__sky" aria-hidden="true"></div>
+            <div class="mf-forest__ground" aria-hidden="true"></div>
+            <div id="mf-fog" class="mf-forest__fog" aria-hidden="true"></div>
+            <div id="mf-fireflies" class="mf-forest__fireflies" aria-hidden="true"></div>
+
+            <div class="mf-flower mf-flower--1" aria-hidden="true"><span></span><span></span></div>
+            <div class="mf-flower mf-flower--2" aria-hidden="true"><span></span><span></span></div>
+            <div class="mf-flower mf-flower--3" aria-hidden="true"><span></span><span></span></div>
+            <div class="mf-flower mf-flower--4" aria-hidden="true"><span></span><span></span></div>
+            <div class="mf-flower mf-flower--5" aria-hidden="true"><span></span><span></span></div>
+
+            <div class="mf-shroom mf-shroom--1" aria-hidden="true"></div>
+            <div class="mf-shroom mf-shroom--2 mf-shroom--purple" aria-hidden="true"></div>
+            <div class="mf-shroom mf-shroom--3 mf-shroom--blue" aria-hidden="true"></div>
+            <div class="mf-shroom mf-shroom--4" aria-hidden="true"></div>
+            <div class="mf-shroom mf-shroom--5 mf-shroom--purple" aria-hidden="true"></div>
+            <div class="mf-shroom mf-shroom--6 mf-shroom--blue" aria-hidden="true"></div>
+
+            <div class="mf-ambient-orbs" aria-hidden="true">
+              <span class="mf-ambient-orb mf-ambient-orb--1"></span>
+              <span class="mf-ambient-orb mf-ambient-orb--2"></span>
+              <span class="mf-ambient-orb mf-ambient-orb--3"></span>
+              <span class="mf-ambient-orb mf-ambient-orb--4"></span>
+              <span class="mf-ambient-orb mf-ambient-orb--5"></span>
+              <span class="mf-ambient-orb mf-ambient-orb--6"></span>
+              <span class="mf-ambient-orb mf-ambient-orb--7"></span>
+              <span class="mf-ambient-orb mf-ambient-orb--8"></span>
+            </div>
+
+            <div class="mf-memory-tree" aria-hidden="true">
+              <div class="mf-memory-tree__aura"></div>
+              <div class="mf-memory-tree__aura mf-memory-tree__aura--2"></div>
+              <div class="mf-memory-tree__canopy">
+                <span class="mf-memory-tree__leaf mf-memory-tree__leaf--1"></span>
+                <span class="mf-memory-tree__leaf mf-memory-tree__leaf--2"></span>
+                <span class="mf-memory-tree__leaf mf-memory-tree__leaf--3"></span>
+                <span class="mf-memory-tree__sparkle"></span>
+              </div>
+              <div class="mf-memory-tree__trunk"></div>
+              <div class="mf-memory-tree__roots"></div>
+              <span class="mf-memory-tree__core">✦</span>
+            </div>
+
+            <div id="mf-quiz-orbs" class="mf-quiz-orbs">
+              <button type="button" class="mf-quiz-orb mf-quiz-orb--1" data-orb="orb-1" aria-label="Memory orb 1">
+                <span class="mf-quiz-orb__ring"></span>
+                <span class="mf-quiz-orb__core"></span>
+                <span class="mf-quiz-orb__num font-pixel">1</span>
+              </button>
+              <button type="button" class="mf-quiz-orb mf-quiz-orb--2" data-orb="orb-2" aria-label="Memory orb 2">
+                <span class="mf-quiz-orb__ring"></span>
+                <span class="mf-quiz-orb__core"></span>
+                <span class="mf-quiz-orb__num font-pixel">2</span>
+              </button>
+              <button type="button" class="mf-quiz-orb mf-quiz-orb--3" data-orb="orb-3" aria-label="Memory orb 3">
+                <span class="mf-quiz-orb__ring"></span>
+                <span class="mf-quiz-orb__core"></span>
+                <span class="mf-quiz-orb__num font-pixel">3</span>
+              </button>
+              <button type="button" class="mf-quiz-orb mf-quiz-orb--4" data-orb="orb-4" aria-label="Memory orb 4">
+                <span class="mf-quiz-orb__ring"></span>
+                <span class="mf-quiz-orb__core"></span>
+                <span class="mf-quiz-orb__num font-pixel">4</span>
+              </button>
+            </div>
+
+            <div id="mf-scene-reward" class="mf-scene-reward" aria-hidden="true"></div>
+          </div>
+
+          <p class="mf-progress font-pixel"><span id="mf-progress-text">0</span> / 4 Memories Restored</p>
+        </div>
+
+        <div id="mf-quiz-backdrop" class="mf-quiz-backdrop" aria-hidden="true">
+          <article class="mf-quiz-card pixel-panel" role="dialog" aria-labelledby="mf-quiz-heading">
+            <button type="button" class="mf-quiz-card__close" data-mf-close aria-label="Close">×</button>
+            <p id="mf-quiz-heading" class="mf-quiz-card__heading font-pixel">Memory Orb</p>
+            <p id="mf-quiz-question" class="mf-quiz-card__question"></p>
+            <div id="mf-quiz-options" class="mf-quiz-card__options"></div>
+            <p id="mf-quiz-feedback" class="mf-quiz-card__feedback"></p>
+            <button type="button" id="mf-quiz-submit" class="mf-quiz-card__submit font-pixel">Submit</button>
+          </article>
+        </div>
+
+        <div id="mf-complete" class="mf-complete" aria-hidden="true">
+          <div class="mf-complete__veil"></div>
+          <div class="mf-complete__content">
+            <h2 class="mf-complete__title font-pixel">MEMORY KEY ACQUIRED</h2>
+            <div class="mf-complete__key-stage">
+              <div class="mf-complete__key-burst" aria-hidden="true"></div>
+              <div class="mf-golden-key" aria-hidden="true">
+                <span class="mf-golden-key__bow"></span>
+                <span class="mf-golden-key__shaft"></span>
+                <span class="mf-golden-key__teeth"></span>
+                <span class="mf-golden-key__shine"></span>
+              </div>
+            </div>
+            <p class="mf-complete__sub">The forest remembers everything. Your path forward is unlocked.</p>
+            <button type="button" id="mf-complete-continue" class="mf-complete__btn font-pixel">Continue to Map</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ BEACH OF CHAOS — Arcade Mini-Game ═══ -->
+      <section id="screen-beach-chaos" class="screen" data-screen="beach-chaos">
+        <div class="bc-page">
+          <button type="button" id="bc-back-map" class="bc-back font-pixel">← MAP</button>
+
+          <header class="bc-title">
+            <h1 class="bc-title__main font-pixel">🏖 Beach of Chaos</h1>
+            <p class="bc-title__sub">Catch the love · Dodge the heartbreak</p>
+          </header>
+
+          <div class="bc-stats">
+            <div class="bc-stat">
+              <span class="bc-stat__label font-pixel">Timer</span>
+              <span id="bc-timer" class="bc-stat__value">30</span>
+            </div>
+            <div class="bc-stat">
+              <span class="bc-stat__label font-pixel">Score</span>
+              <span id="bc-score" class="bc-stat__value">0</span>
+            </div>
+            <div class="bc-stat">
+              <span class="bc-stat__label font-pixel">Remaining</span>
+              <span id="bc-target" class="bc-stat__value">20</span>
+            </div>
+          </div>
+
+          <div id="bc-arena" class="bc-arena">
+            <div class="bc-arena__sky" aria-hidden="true"></div>
+            <div class="bc-arena__sun" aria-hidden="true"></div>
+            <span class="bc-arena__cloud bc-arena__cloud--1" aria-hidden="true"></span>
+            <span class="bc-arena__cloud bc-arena__cloud--2" aria-hidden="true"></span>
+            <div class="bc-arena__ocean" aria-hidden="true">
+              <span class="bc-arena__wave bc-arena__wave--1"></span>
+              <span class="bc-arena__wave bc-arena__wave--2"></span>
+            </div>
+            <div class="bc-arena__sand" aria-hidden="true"></div>
+            <span class="bc-arena__palm bc-arena__palm--l" aria-hidden="true"></span>
+            <span class="bc-arena__palm bc-arena__palm--r" aria-hidden="true"></span>
+
+            <div id="bc-items"></div>
+
+            <div id="bc-basket" class="bc-basket">
+              <span class="bc-basket__rim"></span>
+              <span class="bc-basket__body"></span>
+              <span class="bc-basket__shadow"></span>
+            </div>
+          </div>
+
+          <div id="bc-intro" class="bc-overlay is-open" aria-hidden="false">
+            <div class="bc-overlay__panel pixel-panel">
+              <h2 class="bc-overlay__title font-pixel">Heart Catcher</h2>
+              <p id="bc-intro-hint" class="bc-overlay__text">Catch ❤️ (+1) · Dodge 💔 (-1) · Reach 20 pts in 30s</p>
+              <p class="bc-overlay__text">Move basket with mouse, touch, or ← → keys</p>
+              <button type="button" id="bc-start-btn" class="bc-overlay__btn font-pixel">Start Game</button>
+            </div>
+          </div>
+
+          <div id="bc-gameover" class="bc-overlay" aria-hidden="true">
+            <div class="bc-overlay__panel pixel-panel">
+              <h2 class="bc-overlay__title font-pixel">Time's Up!</h2>
+              <p class="bc-overlay__text">Score: <strong id="bc-gameover-score">0</strong> / 20</p>
+              <p class="bc-overlay__text">Try Again ❤️</p>
+              <button type="button" id="bc-retry-btn" class="bc-overlay__btn font-pixel">Retry</button>
+            </div>
+          </div>
+
+          <div id="bc-victory" class="bc-overlay" aria-hidden="true">
+            <div class="bc-overlay__panel pixel-panel">
+              <p class="bc-victory__unlock font-pixel">Achievement Unlocked</p>
+              <h2 class="bc-victory__badge font-pixel">HEART COLLECTOR ❤️</h2>
+              <p class="bc-overlay__text">You caught enough love to calm the chaos. +3 Hearts added to your journey.</p>
+              <button type="button" id="bc-victory-continue" class="bc-overlay__btn font-pixel">Continue to Map</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ PIZZA KINGDOM — Drag & Match Village ═══ -->
+      <section id="screen-pizza-kingdom" class="screen" data-screen="pizza-kingdom">
+        <div class="pk-page">
+          <button type="button" id="pk-back-map" class="pk-back font-pixel">← MAP</button>
+
+          <header class="pk-header">
+            <h1 class="pk-header__title font-pixel">🍕 Pizza Kingdom</h1>
+            <p class="pk-header__sub">Match your favorites in the cheesy village</p>
+          </header>
+
+          <p id="pk-progress" class="pk-progress font-pixel">0 / 4 Matches</p>
+
+          <div class="pk-village" aria-hidden="true">
+            <div class="pk-village__sky"></div>
+            <div class="pk-village__sun"></div>
+            <div class="pk-cheese-river">
+              <span class="pk-cheese-river__shine"></span>
+            </div>
+            <div class="pk-ground"></div>
+            <div class="pk-castle">
+              <span class="pk-castle__roof"></span>
+              <span class="pk-castle__tower pk-castle__tower--l"></span>
+              <span class="pk-castle__tower pk-castle__tower--r"></span>
+              <span class="pk-castle__base"></span>
+              <span class="pk-castle__flag"></span>
+            </div>
+            <div class="pk-house pk-house--l">
+              <span class="pk-house__roof"></span>
+              <span class="pk-house__body"></span>
+            </div>
+            <div class="pk-house pk-house--r">
+              <span class="pk-house__roof"></span>
+              <span class="pk-house__body"></span>
+            </div>
+          </div>
+
+          <div class="pk-game">
+            <p class="pk-game__hint">Drag the right answer into each category — watch out for decoys!</p>
+            <p class="pk-game__section font-pixel">Categories</p>
+            <div id="pk-zones" class="pk-zones"></div>
+            <p class="pk-game__section font-pixel">Answer choices</p>
+            <div id="pk-answers" class="pk-answers"></div>
+          </div>
+
+          <div id="pk-toast"></div>
+
+          <div id="pk-fragment-reveal" class="pk-fragment-reveal" aria-hidden="true">
+            <div class="pk-fragment-reveal__veil"></div>
+            <div class="pk-fragment-reveal__panel pixel-panel">
+              <span class="pk-fragment-reveal__burst" aria-hidden="true"></span>
+              <h2 class="pk-fragment-reveal__title font-pixel">SECRET CODE FRAGMENT UNLOCKED</h2>
+              <div class="pk-fragment-reveal__letter-wrap">
+                <span id="pk-fragment-letter" class="pk-fragment-reveal__letter">O</span>
+              </div>
+              <p class="pk-fragment-reveal__sub">A golden slice of the secret code is yours!</p>
+              <div id="pk-code-display" class="pk-code-display"></div>
+              <button type="button" id="pk-fragment-continue" class="pk-fragment-reveal__btn font-pixel">Continue to Map</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ INSIDE JOKE DUNGEON — Meme Quiz Corridors ═══ -->
+      <section id="screen-joke-dungeon" class="screen" data-screen="joke-dungeon">
+        <div class="jd-page">
+          <button type="button" id="jd-back-map" class="jd-back font-pixel">← MAP</button>
+
+          <header class="jd-header">
+            <h1 class="jd-header__title font-pixel">😂 Inside Joke Dungeon</h1>
+            <p class="jd-header__sub">Memes only you two understand — survive the quiz gates</p>
+          </header>
+
+          <p class="jd-progress font-pixel">Gates cleared: <span id="jd-progress-text">0 / 5</span></p>
+
+          <div class="jd-corridor-wrap">
+            <div id="jd-corridor" class="jd-corridor" aria-label="Pixel dungeon corridor">
+              <div class="jd-corridor__ceiling" aria-hidden="true"></div>
+              <div class="jd-wall jd-wall--left" aria-hidden="true"></div>
+              <div class="jd-wall jd-wall--right" aria-hidden="true"></div>
+              <div class="jd-corridor__floor" aria-hidden="true"></div>
+              <div class="jd-glow" aria-hidden="true"></div>
+
+              <span class="jd-banner font-pixel" aria-hidden="true">⚠️ HUMOR ZONE — NO CAP ALLOWED</span>
+
+              <p class="jd-sign jd-sign--l font-pixel" aria-hidden="true">EXIT? THERE IS NO EXIT. ONLY QUIZ.</p>
+              <p class="jd-sign jd-sign--r font-pixel" aria-hidden="true">BOSS FIGHT: YOUR TEXT TONE</p>
+              <p class="jd-sign jd-sign--meme font-pixel" aria-hidden="true">STONKS ↗️ EMOTIONAL DAMAGE ↘️</p>
+
+              <span class="jd-deco jd-deco--stonks" aria-hidden="true">📈</span>
+              <span class="jd-deco jd-deco--doge" aria-hidden="true">🐕</span>
+              <span class="jd-deco jd-deco--skull" aria-hidden="true">💀</span>
+
+              <span class="jd-torch jd-torch--1" aria-hidden="true"></span>
+              <span class="jd-torch jd-torch--2" aria-hidden="true"></span>
+              <span class="jd-torch jd-torch--3" aria-hidden="true"></span>
+              <span class="jd-torch jd-torch--4" aria-hidden="true"></span>
+
+              <div id="jd-gates" class="jd-gates"></div>
+            </div>
+          </div>
+
+          <p class="jd-hint">Tap a gate to answer. Wrong answers get roasted. Clear all five to earn your badge.</p>
+        </div>
+
+        <div id="jd-quiz-backdrop" class="jd-quiz-backdrop" aria-hidden="true">
+          <article class="jd-quiz-card pixel-panel" role="dialog" aria-labelledby="jd-quiz-heading">
+            <button type="button" class="jd-quiz-card__close" data-jd-close aria-label="Close">×</button>
+            <p id="jd-quiz-heading" class="jd-quiz-card__heading font-pixel">Quiz Gate</p>
+            <p id="jd-quiz-question" class="jd-quiz-card__question"></p>
+            <div id="jd-quiz-options" class="jd-quiz-card__options"></div>
+            <p id="jd-quiz-feedback" class="jd-quiz-card__feedback"></p>
+            <button type="button" id="jd-quiz-submit" class="jd-quiz-card__submit font-pixel">Submit Answer</button>
+          </article>
+        </div>
+
+        <div id="jd-fragment-reveal" class="jd-fragment-reveal" aria-hidden="true">
+          <div class="jd-fragment-reveal__veil"></div>
+          <div class="jd-fragment-reveal__panel pixel-panel">
+            <h2 class="jd-fragment-reveal__title font-pixel">SECRET CODE FRAGMENT UNLOCKED</h2>
+            <div class="jd-fragment-reveal__letter-wrap">
+              <span id="jd-fragment-letter" class="jd-fragment-reveal__letter">V</span>
+            </div>
+            <p class="jd-fragment-reveal__sub">The dungeon respects your meme fluency.</p>
+            <div id="jd-code-display" class="jd-code-display"></div>
+            <button type="button" id="jd-fragment-continue" class="jd-fragment-reveal__btn font-pixel">Claim Achievement</button>
+          </div>
+        </div>
+
+        <div id="jd-complete" class="jd-complete" aria-hidden="true">
+          <div class="jd-complete__veil"></div>
+          <div class="jd-complete__panel pixel-panel">
+            <p class="jd-complete__emoji" aria-hidden="true">😂🏆</p>
+            <h2 class="jd-complete__badge font-pixel">JOKE SURVIVOR</h2>
+            <p class="jd-complete__sub">You survived every gate. Secret Valley awaits on the map.</p>
+            <button type="button" id="jd-complete-continue" class="jd-complete__btn font-pixel">Continue to Map</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ SECRET VALLEY — Enchanted Meadow (full rebuild) ═══ -->
+      <section id="screen-secret-valley" class="screen" data-screen="secret-valley">
+        <div class="sv-world">
+          <button type="button" id="sv-back-map" class="sv-back font-pixel">← MAP</button>
+
+          <div class="sv-world__main">
+            <div id="sv-stage" class="sv-stage" aria-label="Secret Valley enchanted meadow">
+              <div class="sv-layer sv-layer--sky">
+                <div class="sv-stars" aria-hidden="true"></div>
+                <div class="sv-mountains" aria-hidden="true">
+                  <span class="sv-mountain sv-mountain--l"></span>
+                  <span class="sv-mountain sv-mountain--r"></span>
+                </div>
+                <button type="button" class="sv-moon" id="sv-moon-hotspot" data-hotspot="moon" aria-label="The moon">
+                  <span class="sv-moon__glow" aria-hidden="true"></span>
+                  <span class="sv-moon__disc" aria-hidden="true"></span>
+                </button>
+                <div class="sv-aurora" aria-hidden="true"></div>
+              </div>
+
+              <div class="sv-layer sv-layer--far">
+                <div class="sv-far-falls" aria-hidden="true">
+                  <span class="sv-far-falls__stream"></span>
+                  <span class="sv-far-falls__mist"></span>
+                </div>
+              </div>
+
+              <div class="sv-layer sv-layer--mid">
+                <div class="sv-hill sv-hill--back" aria-hidden="true"></div>
+                <div class="sv-trees-back" aria-hidden="true">
+                  <span class="sv-tree sv-tree--b1"></span>
+                  <span class="sv-tree sv-tree--b2"></span>
+                  <span class="sv-tree sv-tree--b3"></span>
+                </div>
+              </div>
+
+              <div class="sv-layer sv-layer--ground">
+                <div class="sv-meadow-floor" aria-hidden="true"></div>
+                <div class="sv-path sv-path--curve" aria-hidden="true"></div>
+                <div class="sv-path sv-path--fork" aria-hidden="true"></div>
+
+                <div class="sv-waterfall-zone" aria-hidden="true">
+                  <div class="sv-cliff"></div>
+                  <div class="sv-falls">
+                    <span class="sv-falls__sheet sv-falls__sheet--1"></span>
+                    <span class="sv-falls__sheet sv-falls__sheet--2"></span>
+                    <span class="sv-falls__sheet sv-falls__sheet--3"></span>
+                  </div>
+                  <div class="sv-pool">
+                    <span class="sv-pool__surface"></span>
+                    <span class="sv-pool__reflection"></span>
+                    <span id="sv-fish" class="sv-fish" aria-hidden="true">🐟</span>
+                  </div>
+                  <div class="sv-falls-mist" aria-hidden="true"></div>
+                </div>
+
+                <div class="sv-flora">
+                  <span class="sv-grass tuft tuft--1"></span>
+                  <span class="sv-grass tuft tuft--2"></span>
+                  <span class="sv-grass tuft tuft--3"></span>
+                  <span class="sv-grass tuft tuft--4"></span>
+                  <span class="sv-grass tuft tuft--5"></span>
+                  <span class="sv-rock sv-rock--1"></span>
+                  <span class="sv-rock sv-rock--2"></span>
+                  <span class="sv-mushroom sv-mushroom--a"></span>
+                  <span class="sv-mushroom sv-mushroom--b"></span>
+                  <div class="sv-wildflower-patch" aria-hidden="true">
+                    <span class="sv-blossom"></span><span class="sv-blossom"></span><span class="sv-blossom"></span>
+                    <span class="sv-blossom sv-blossom--pink"></span><span class="sv-blossom"></span>
+                  </div>
+                  <div class="sv-stump-area">
+                    <span class="sv-stump" aria-hidden="true"></span>
+                    <span class="sv-willow" aria-hidden="true"></span>
+                  </div>
+                  <span class="sv-lantern-post" aria-hidden="true"></span>
+                </div>
+              </div>
+
+              <div id="sv-memory-gate" class="sv-memory-gate" aria-hidden="true">
+                <p class="sv-memory-gate__title font-pixel">✨ The Ancient Memory Gate ✨</p>
+                <div class="sv-memory-gate__arch">
+                  <span class="sv-memory-gate__pillar sv-memory-gate__pillar--l"></span>
+                  <span class="sv-memory-gate__pillar sv-memory-gate__pillar--r"></span>
+                  <span class="sv-memory-gate__lintel"></span>
+                  <span class="sv-memory-gate__vine sv-memory-gate__vine--l"></span>
+                  <span class="sv-memory-gate__vine sv-memory-gate__vine--r"></span>
+                  <span class="sv-rune sv-rune--1">ᚠ</span>
+                  <span class="sv-rune sv-rune--2">ᚢ</span>
+                  <span class="sv-rune sv-rune--3">ᚦ</span>
+                  <span class="sv-rune sv-rune--4">ᚨ</span>
+                  <span class="sv-memory-gate__portal"></span>
+                  <span class="sv-memory-gate__flowers" aria-hidden="true"></span>
+                </div>
+              </div>
+
+              <div class="sv-layer sv-layer--fx">
+                <div class="sv-bloom" aria-hidden="true"></div>
+                <div id="sv-particles" class="sv-particles" aria-hidden="true"></div>
+                <div id="sv-fireflies" class="sv-fireflies" aria-hidden="true"></div>
+                <div class="sv-mist sv-mist--low" aria-hidden="true"></div>
+                <div class="sv-mist sv-mist--mid" aria-hidden="true"></div>
+              </div>
+
+              <div id="sv-hotspots" class="sv-hotspots"></div>
+              <div id="sv-treasures" class="sv-treasures"></div>
+              <div id="sv-bursts" class="sv-bursts" aria-hidden="true"></div>
+            </div>
+
+            <aside class="sv-quest-log" aria-label="Secret Valley Quest Log">
+              <div class="sv-quest-log__frame">
+                <div class="sv-quest-log__trim" aria-hidden="true"></div>
+                <header class="sv-quest-log__head">
+                  <span class="sv-quest-log__scroll" aria-hidden="true">📜</span>
+                  <h2 class="sv-quest-log__title font-pixel">Secret Valley Quest Log</h2>
+                </header>
+                <section class="sv-quest-section">
+                  <h3 class="sv-quest-section__label font-pixel">Found Objects</h3>
+                  <ul id="sv-quest-objects" class="sv-quest-objects"></ul>
+                </section>
+                <div class="sv-quest-progress">
+                  <div class="sv-quest-progress__track">
+                    <div id="sv-quest-bar-fill" class="sv-quest-progress__fill"></div>
+                  </div>
+                  <p id="sv-quest-pct" class="sv-quest-progress__pct font-pixel">0% Complete</p>
+                </div>
+                <section class="sv-quest-section">
+                  <h3 class="sv-quest-section__label font-pixel">Code Fragments</h3>
+                  <div id="sv-quest-runes" class="sv-quest-runes"></div>
+                </section>
+                <section class="sv-quest-section">
+                  <h3 class="sv-quest-section__label font-pixel">Kingdom Stones</h3>
+                  <div id="sv-quest-stones" class="sv-quest-stones"></div>
+                </section>
+              </div>
+            </aside>
+          </div>
+
+          <p id="sv-whisper" class="sv-whisper" role="status" aria-live="polite"></p>
+        </div>
+
+        <div id="sv-found-popup" class="sv-popup" aria-hidden="true">
+          <div class="sv-popup__veil"></div>
+          <article class="sv-popup__card">
+            <div class="sv-popup__spark-ring" aria-hidden="true"></div>
+            <h2 id="sv-found-title" class="sv-popup__title font-pixel"></h2>
+            <p id="sv-found-sub" class="sv-popup__sub"></p>
+            <p id="sv-found-progress" class="sv-popup__prog font-pixel"></p>
+            <p class="sv-popup__frag-label font-pixel">Secret Code Fragment</p>
+            <button type="button" id="sv-found-continue" class="sv-popup__btn font-pixel">Continue Exploring</button>
+          </article>
+        </div>
+
+        <div id="sv-complete" class="sv-popup sv-popup--finale" aria-hidden="true">
+          <div class="sv-popup__veil sv-popup__veil--dark"></div>
+          <article class="sv-popup__card sv-popup__card--gold">
+            <p class="sv-popup__crown" aria-hidden="true">✨</p>
+            <h2 class="sv-popup__finale-title font-pixel">SECRET CODE COMPLETE</h2>
+            <p class="sv-popup__finale-sub">The Ancient Memory Gate opens — a new fragment is yours.</p>
+            <p id="sv-complete-fragment" class="sv-popup__fragment font-pixel"></p>
+            <span id="sv-complete-letter" class="sv-popup__letter">L</span>
+            <div id="sv-complete-stones" class="sv-quest-stones sv-quest-stones--center"></div>
+            <button type="button" id="sv-complete-continue" class="sv-popup__btn font-pixel">Return to Kingdom Map</button>
+          </article>
+        </div>
+      </section>
+
+      <!-- ═══ OPEN WHEN LIBRARY — Magical Letters ═══ -->
+      <section id="screen-open-when" class="screen" data-screen="open-when">
+        <div id="owl-library" class="owl-library">
+          <button type="button" id="owl-back-map" class="owl-back font-pixel">← MAP</button>
+
+          <header class="owl-header">
+            <h1 class="owl-header__title font-pixel">📚 Open When Library</h1>
+            <p class="owl-header__sub">Letters for every feeling — yours to open, always</p>
+          </header>
+
+          <div class="owl-library__scene">
+            <div class="owl-lib-bg" aria-hidden="true">
+              <div class="owl-lib-bg__ceiling"></div>
+              <div class="owl-lib-bg__stars"></div>
+              <div class="owl-lib-bg__floor"></div>
+              <div class="owl-lib-bg__rug"></div>
+            </div>
+            <div class="owl-lib-windows" aria-hidden="true">
+              <span class="owl-lib-window"></span>
+              <span class="owl-lib-window"></span>
+              <span class="owl-lib-window"></span>
+            </div>
+            <div class="owl-lib-shelves" aria-hidden="true">
+              <span class="owl-lib-shelf"></span>
+              <span class="owl-lib-shelf"></span>
+            </div>
+            <div class="owl-lib-candles owl-lib-candles--l" aria-hidden="true">
+              <span class="owl-candle"></span><span class="owl-candle"></span>
+            </div>
+            <div class="owl-lib-candles owl-lib-candles--r" aria-hidden="true">
+              <span class="owl-candle"></span><span class="owl-candle"></span>
+            </div>
+            <div class="owl-lib-dust" aria-hidden="true"></div>
+            <div id="owl-shelf" class="owl-shelf"></div>
+          </div>
+
+          <p id="owl-shelf-progress" class="owl-shelf-meta font-pixel">0 / 3 letters opened</p>
+          <p class="owl-forever">These books remain accessible forever — return whenever you need them.</p>
+
+          <div id="owl-mission-toast" class="owl-mission-toast font-pixel" role="status">
+            ✨ All letters read — +2 Hearts · Library mission complete
+          </div>
+        </div>
+
+        <div id="owl-reader" class="owl-reader" aria-hidden="true">
+          <header class="owl-reader__header">
+            <h2 id="owl-reader-title" class="owl-reader__title font-pixel"></h2>
+          </header>
+          <div class="owl-reader__book-wrap">
+            <div class="owl-book-physical">
+              <div id="owl-page" class="owl-page"></div>
+            </div>
+          </div>
+          <nav class="owl-reader__nav" aria-label="Turn pages">
+            <button type="button" id="owl-page-prev" class="owl-reader__btn font-pixel">← Turn Page</button>
+            <span id="owl-page-indicator" class="owl-reader__indicator font-pixel">Page 1 of 4</span>
+            <button type="button" id="owl-page-next" class="owl-reader__btn font-pixel">Turn Page →</button>
+            <button type="button" id="owl-reader-close" class="owl-reader__btn owl-reader__btn--close font-pixel">Close Book</button>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ═══ RANDOM LOVE MACHINE — Arcade Room ═══ -->
+      <section id="screen-love-machine" class="screen" data-screen="love-machine">
+        <div class="lm-room">
+          <button type="button" id="lm-back-map" class="lm-back font-pixel">← MAP</button>
+
+          <header class="lm-header">
+            <h1 class="lm-header__title font-pixel">🎰 Random Love Machine</h1>
+            <p class="lm-header__sub">Arcade room of surprise affection</p>
+          </header>
+
+          <div class="lm-scene">
+            <div class="lm-room-bg" aria-hidden="true">
+              <div class="lm-room-bg__wall"></div>
+              <div class="lm-room-bg__floor"></div>
+              <p class="lm-room-bg__neon font-pixel">LOVE ARCADE</p>
+            </div>
+            <div class="lm-cabinet lm-cabinet--l" aria-hidden="true"></div>
+            <div class="lm-cabinet lm-cabinet--r" aria-hidden="true"></div>
+
+            <div class="lm-machine-wrap">
+              <div id="lm-machine" class="lm-machine">
+                <div class="lm-machine__top" aria-hidden="true">
+                  <span class="lm-machine__marquee font-pixel">JACKPOT HEARTS</span>
+                </div>
+                <div id="lm-machine-screen" class="lm-machine__screen">
+                  <div class="lm-reels" aria-label="Slot reels">
+                    <div class="lm-reel"><div class="lm-reel__window"><span class="lm-reel__strip">❤️</span></div></div>
+                    <div class="lm-reel"><div class="lm-reel__window"><span class="lm-reel__strip">✨</span></div></div>
+                    <div class="lm-reel"><div class="lm-reel__window"><span class="lm-reel__strip">🎰</span></div></div>
+                  </div>
+                </div>
+                <button type="button" id="lm-spin-btn" class="lm-spin-btn font-pixel">
+                  PRESS FOR RANDOM LOVE ❤️
+                </button>
+              </div>
+            </div>
+
+            <div id="lm-confetti" class="lm-fx" aria-hidden="true"></div>
+            <div id="lm-sparkles" class="lm-fx" aria-hidden="true"></div>
+          </div>
+
+          <p class="lm-stats font-pixel">Spins: <span id="lm-spin-count">0</span></p>
+
+          <!-- Editor pools — customize in js/loveMachineData.js -->
+          <div class="lm-editor-pools" aria-hidden="true">
+            <!-- ADD COMPLIMENTS -->
+            <!-- ADD LOVE NOTES -->
+            <!-- ADD IMAGES -->
+          </div>
+        </div>
+
+        <div id="lm-reward" class="lm-reward" aria-hidden="true" role="dialog">
+          <article class="lm-reward__card pixel-panel">
+            <p class="lm-reward__banner font-pixel">✨ You won! ✨</p>
+            <h2 id="lm-reward-type" class="lm-reward__type font-pixel"></h2>
+            <div id="lm-reward-body"></div>
+            <div id="lm-reward-image" class="lm-reward__image" hidden></div>
+            <button type="button" id="lm-reward-close" class="lm-reward__close font-pixel">Collect &amp; Spin Again</button>
+          </article>
+        </div>
+      </section>
+
+      <!-- ═══ ACHIEVEMENT HALL — Trophy Room ═══ -->
+      <section id="screen-achievement-hall" class="screen" data-screen="achievement-hall">
+        <div class="ah-room">
+          <button type="button" id="ah-back-map" class="ah-back font-pixel">← MAP</button>
+
+          <header class="ah-header">
+            <h1 class="ah-header__title font-pixel">🏆 Achievement Hall</h1>
+            <p class="ah-header__sub">A grand hall of every triumph on your quest</p>
+          </header>
+
+          <div id="ah-hall" class="ah-hall">
+            <div class="ah-hall__pillars" aria-hidden="true">
+              <div class="ah-hall__pillar"></div>
+              <div class="ah-hall__pillar"></div>
+            </div>
+            <div class="ah-hall__arch" aria-hidden="true"></div>
+            <div class="ah-hall__torches" aria-hidden="true">
+              <span class="ah-hall__torch">🔥</span>
+              <span class="ah-hall__torch">🔥</span>
+              <span class="ah-hall__torch">🔥</span>
+            </div>
+            <div id="ah-badges" class="ah-badges" aria-label="Trophy badges"></div>
+            <div class="ah-hall__floor" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div id="ah-confetti" class="ah-confetti" aria-hidden="true"></div>
+      </section>
+
+      <!-- ═══ BIRTHDAY VAULT — Final Boss ═══ -->
+      <section id="screen-birthday-vault" class="screen" data-screen="birthday-vault">
+        <div class="bv-room">
+          <button type="button" id="bv-back-map" class="bv-back font-pixel">← MAP</button>
+
+          <header class="bv-header">
+            <h1 class="bv-header__title font-pixel">🔒 Birthday Vault</h1>
+            <p class="bv-header__sub">The kingdom's greatest treasure awaits behind the golden door</p>
+          </header>
+
+          <div class="bv-scene">
+            <div class="bv-glow" aria-hidden="true"></div>
+            <div id="bv-particles" class="bv-particles" aria-hidden="true"></div>
+
+            <div id="bv-vault" class="bv-vault">
+              <div class="bv-vault__chains" aria-hidden="true">
+                <span class="bv-chain"></span>
+                <span class="bv-chain"></span>
+                <span class="bv-chain"></span>
+                <span class="bv-chain"></span>
+              </div>
+              <div class="bv-vault__frame">
+                <div class="bv-vault__door">
+                  <div class="bv-vault__door-inner" aria-hidden="true"></div>
+                  <div class="bv-vault__wheel" aria-hidden="true"></div>
+                  <div class="bv-vault__light" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <p id="bv-status" class="bv-status font-pixel" aria-live="polite"></p>
+          </div>
+
+          <aside class="bv-panel pixel-panel">
+            <h2 class="bv-panel__title font-pixel">Vault Requirements</h2>
+            <ul id="bv-requirements" class="bv-requirements"></ul>
+            <button type="button" id="bv-unlock-btn" class="bv-unlock-btn font-pixel">
+              BEGIN UNLOCK SEQUENCE
+            </button>
+          </aside>
+        </div>
+
+        <div id="bv-sanctuary-entry" class="bv-sanctuary-entry" aria-hidden="true">
+          <p class="bv-sanctuary-entry__text font-pixel">👑 Vault opened — a dream awaits</p>
+          <button type="button" id="bv-enter-sanctuary" class="bv-sanctuary-entry__btn font-pixel">
+            Enter Dream Sanctuary ✨
+          </button>
+        </div>
+      </section>
+
+      <!-- ═══ DREAM SANCTUARY — Emotional finale ═══ -->
+      <section id="screen-dream-sanctuary" class="screen" data-screen="dream-sanctuary">
+        <div class="ds-sanctuary">
+          <div class="ds-sky" aria-hidden="true"></div>
+          <div class="ds-mist" aria-hidden="true"></div>
+          <div class="ds-stars" aria-hidden="true"></div>
+          <div id="ds-hearts" class="ds-hearts" aria-hidden="true"></div>
+
+          <button type="button" id="ds-back-map" class="ds-back font-pixel">← MAP</button>
+
+          <header class="ds-intro">
+            <h1 class="ds-intro__title font-pixel">Dream Sanctuary</h1>
+            <p class="ds-intro__sub">A quiet place where love floats like starlight — open the gift when your heart is ready.</p>
+          </header>
+
+          <div id="ds-stage" class="ds-stage">
+            <div id="ds-burst" class="ds-burst" aria-hidden="true"></div>
+
+            <button type="button" id="ds-gift" class="ds-gift" aria-label="Open the gift box">
+              <div class="ds-gift__lid-wrap">
+                <div class="ds-gift__lid"></div>
+              </div>
+              <span class="ds-gift__bow" aria-hidden="true">🎀</span>
+              <div class="ds-gift__box">
+                <span class="ds-gift__ribbon-v" aria-hidden="true"></span>
+                <span class="ds-gift__ribbon-h" aria-hidden="true"></span>
+              </div>
+              <span class="ds-gift__hint font-pixel">Tap to open your gift</span>
+            </button>
+
+            <div id="ds-book" class="ds-book" aria-hidden="true">
+              <div class="ds-book__glow" aria-hidden="true"></div>
+              <article class="ds-book__frame">
+                <div class="ds-book__spine" aria-hidden="true"></div>
+                <div class="ds-page-wrap">
+                  <div id="ds-page" class="ds-page-layer"></div>
+                </div>
+                <nav class="ds-book__nav" aria-label="Book pages">
+                  <button type="button" id="ds-page-prev" class="ds-book__btn font-pixel">← Prev</button>
+                  <span id="ds-page-indicator" class="ds-book__indicator font-pixel">Page 1 of 1</span>
+                  <button type="button" id="ds-page-next" class="ds-book__btn font-pixel">Next →</button>
+                </nav>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ WORLD MAP — Handcrafted Kingdom ═══ -->
+      <section id="screen-map" class="screen" data-screen="map">
+        <div class="map-viewport" id="map-viewport">
+          <div class="kingdom" id="map-world">
+            <div class="kingdom__ambient" aria-hidden="true">
+              <div class="kingdom__sky"></div>
+              <div class="kingdom__aurora"></div>
+              <div class="kingdom__sun"></div>
+              <div class="kingdom__cloud kingdom__cloud--1"></div>
+              <div class="kingdom__cloud kingdom__cloud--2"></div>
+              <div class="kingdom__cloud kingdom__cloud--3"></div>
+              <span class="kingdom__bird kingdom__bird--1">🕊️</span>
+              <span class="kingdom__bird kingdom__bird--2">🕊️</span>
+              <div class="kingdom__hill kingdom__hill--far"></div>
+              <div class="kingdom__hill kingdom__hill--mid"></div>
+              <div class="kingdom__meadow"></div>
+              <div class="kingdom__river"></div>
+              <div class="kingdom__waterfall"></div>
+              <div class="kingdom__bridge"></div>
+              <div class="kingdom__beach"></div>
+              <div class="kingdom__cliff"></div>
+              <div class="kingdom__forest-bg"></div>
+              <div class="kingdom__flowers"></div>
+              <div class="kingdom__trees"></div>
+              <div class="kingdom__hearts" id="kingdom-hearts"></div>
+              <div class="kingdom__sparkles" id="kingdom-sparkles"></div>
+              <div class="kingdom__cottage kingdom__cottage--1"></div>
+              <div class="kingdom__cottage kingdom__cottage--2"></div>
+            </div>
+
+            <header class="kingdom__banner">
+              <h2 class="kingdom__title font-pixel">Birthday Adventure Kingdom</h2>
+              <p class="kingdom__subtitle">Follow the golden road to the vault</p>
+            </header>
+
+            <svg class="kingdom__roads" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="roadGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" stop-color="#8a6848" />
+                  <stop offset="100%" stop-color="#c8a878" />
+                </linearGradient>
+              </defs>
+              <path id="map-road-base" class="kingdom__road-base" fill="none" stroke="url(#roadGrad)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+              <path id="map-road-cobble" class="kingdom__road-cobble" fill="none" stroke="#6a5040" stroke-width="1.2" stroke-dasharray="1.5 1.2" stroke-linecap="round" />
+              <path id="map-road-glow" class="kingdom__road-glow" fill="none" stroke="#f9c74f" stroke-width="0.5" stroke-linecap="round" opacity="0.85" />
+              <g id="map-signposts" class="kingdom__signposts"></g>
+            </svg>
+
+            <div id="map-locations" class="kingdom__landmarks"></div>
+          </div>
+        </div>
+
+        <div id="map-tooltip" class="map-tooltip" role="tooltip" hidden></div>
+      </section>
+
+      <!-- ═══ LOCATION (stub — missions plug in here) ═══ -->
+      <section id="screen-location" class="screen" data-screen="location">
+        <div class="location pixel-panel">
+          <button type="button" id="btn-back-map" class="btn-back font-pixel">← MAP</button>
+          <h2 id="location-title" class="location__title font-pixel"></h2>
+          <p id="location-tagline" class="location__tagline"></p>
+
+          <div class="location__content">
+            <!-- ADD PHOTO HERE -->
+            <div class="placeholder-block placeholder-block--photo">
+              <p class="placeholder-block__label font-pixel">Photo slot</p>
+              <!-- ADD PHOTO HERE -->
+            </div>
+            <!-- ADD VIDEO HERE -->
+            <div class="placeholder-block placeholder-block--video">
+              <p class="placeholder-block__label font-pixel">Video slot</p>
+              <!-- ADD VIDEO HERE -->
+            </div>
+            <!-- ADD VOICE NOTE HERE -->
+            <div class="placeholder-block placeholder-block--voice">
+              <p class="placeholder-block__label font-pixel">Voice note</p>
+              <!-- ADD VOICE NOTE HERE -->
+            </div>
+            <!-- ADD LETTER HERE -->
+            <div class="placeholder-block placeholder-block--letter">
+              <p class="placeholder-block__label font-pixel">Letter</p>
+              <!-- ADD LETTER HERE -->
+            </div>
+            <!-- ADD FUTURE PLANS HERE -->
+            <div class="placeholder-block placeholder-block--plans">
+              <p class="placeholder-block__label font-pixel">Future plans</p>
+              <!-- ADD FUTURE PLANS HERE -->
+            </div>
+          </div>
+
+          <p id="location-status" class="location__status font-pixel"></p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/locations.js"></script>
+  <script src="js/hud.js"></script>
+  <script src="js/intro.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/hearthavenData.js"></script>
+  <script src="js/hearthaven.js"></script>
+  <script src="js/memoryForestData.js"></script>
+  <script src="js/memoryForest.js"></script>
+  <script src="js/beachChaos.js"></script>
+  <script src="js/pizzaKingdomData.js"></script>
+  <script src="js/pizzaKingdom.js"></script>
+  <script src="js/jokeDungeonData.js"></script>
+  <script src="js/jokeDungeon.js"></script>
+  <script src="js/secretValleyData.js"></script>
+  <script src="js/secretValley.js"></script>
+  <script src="js/openWhenLibraryData.js"></script>
+  <script src="js/openWhenLibrary.js"></script>
+  <script src="js/loveMachineData.js"></script>
+  <script src="js/loveMachine.js"></script>
+  <script src="js/achievementHallData.js"></script>
+  <script src="js/achievementHall.js"></script>
+  <script src="js/birthdayVault.js"></script>
+  <script src="js/dreamSanctuaryData.js"></script>
+  <script src="js/dreamSanctuary.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
