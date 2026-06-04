@@ -122,8 +122,8 @@ const SECRET_VALLEY_HOTSPOTS = [
   {
     id: "gate-rune",
     label: "Gate rune",
-    top: "42%",
-    left: "50%",
+    top: "28%",
+    left: "58%",
     message: "The runes hum: \"Find all memories, and I shall open.\"",
   },
   {

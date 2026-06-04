@@ -46,18 +46,28 @@ const SecretValley = {
     const layer = document.getElementById("sv-treasures");
     if (!layer) return;
 
-    layer.innerHTML = SECRET_VALLEY_TREASURES.map((t) => {
-      const zoneClass = `sv-treasure-zone sv-treasure-zone--${t.zone}`;
-      return `
-      <div class="${zoneClass}" data-zone="${t.zone}">
-        <button type="button" class="sv-treasure sv-treasure--${t.id}" data-treasure="${t.id}"
-          aria-label="Search for ${t.name}">
-          <span class="sv-treasure__shimmer" aria-hidden="true"></span>
-          <span class="sv-treasure__object">${t.emoji}</span>
-          <span class="sv-treasure__hint">${t.hint}</span>
-        </button>
-      </div>`;
-    }).join("");
+    layer.innerHTML = SECRET_VALLEY_TREASURES.map(
+      (t) => `
+      <button type="button"
+        class="sv-treasure-zone sv-treasure-zone--${t.zone} sv-treasure sv-treasure--${t.id}"
+        data-treasure="${t.id}"
+        data-zone="${t.zone}"
+        aria-label="Search for ${t.name}">
+        <span class="sv-treasure__shimmer" aria-hidden="true"></span>
+        <span class="sv-treasure__object">${t.emoji}</span>
+        <span class="sv-treasure__hint">${t.hint}</span>
+      </button>`,
+    ).join("");
+
+    layer.querySelectorAll(".sv-treasure").forEach((btn) => {
+      const onPick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!btn.disabled) this.collectTreasure(btn.dataset.treasure);
+      };
+      btn.addEventListener("click", onPick);
+      btn.addEventListener("touchend", onPick, { passive: false });
+    });
   },
 
   renderHotspots() {
@@ -108,20 +118,6 @@ const SecretValley = {
   bindControls() {
     if (this._bound) return;
     this._bound = true;
-
-    const onTreasureActivate = (e) => {
-      if (e.button !== undefined && e.button !== 0) return;
-      const btn = e.target.closest(".sv-treasure");
-      if (btn && !btn.disabled) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.collectTreasure(btn.dataset.treasure);
-      }
-    };
-
-    const treasures = document.getElementById("sv-treasures");
-    treasures?.addEventListener("click", onTreasureActivate);
-    treasures?.addEventListener("pointerup", onTreasureActivate);
 
     document.getElementById("sv-hotspots")?.addEventListener("click", (e) => {
       const btn = e.target.closest(".sv-hotspot");
@@ -194,7 +190,7 @@ const SecretValley = {
       const found = this.isFound(btn.dataset.treasure);
       btn.disabled = found;
       btn.classList.toggle("sv-treasure--found", found);
-      btn.closest(".sv-treasure-zone")?.classList.toggle("sv-treasure-zone--cleared", found);
+      btn.classList.toggle("sv-treasure-zone--cleared", found);
     });
   },
 
