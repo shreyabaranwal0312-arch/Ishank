@@ -10,16 +10,11 @@
 }
 
 .mf-back {
-  position: absolute;
-  top: 8px;
-  left: 10px;
-  z-index: 50;
   font-size: 0.45rem;
   padding: 8px 12px;
   background: rgba(10, 20, 15, 0.9);
   border: 3px solid #7ec8a4;
   color: #d0ffe8;
-  cursor: pointer;
 }
 
 /* ─── Forest scene ─── */

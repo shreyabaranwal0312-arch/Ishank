@@ -53,28 +53,38 @@ const App = {
     });
   },
 
+  handleBackToMap(btn) {
+    if (!btn || btn.disabled) return;
+
+    const screen = btn.closest(".screen");
+    if (!screen?.classList.contains("screen--active")) return;
+
+    AudioEngine.playSfx("select");
+    const screenName = screen.dataset?.screen;
+
+    if (screenName === "hearthaven" && typeof Hearthaven !== "undefined") {
+      Hearthaven.transitionToMap();
+      return;
+    }
+
+    this.goToMap(false);
+  },
+
   bindScreens() {
     if (this._backMapBound) return;
     this._backMapBound = true;
 
-    document.getElementById("app")?.addEventListener("click", (e) => {
+    const onBackToMap = (e) => {
       const btn = e.target.closest("#btn-back-map, [id$='-back-map']");
-      if (!btn || btn.disabled) return;
+      if (!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.handleBackToMap(btn);
+    };
 
-      AudioEngine.playSfx("select");
-      const screenName = btn.closest(".screen")?.dataset?.screen;
-
-      if (screenName === "hearthaven" && typeof Hearthaven !== "undefined") {
-        Hearthaven.transitionToMap();
-        return;
-      }
-
-      if (screenName === "beach-chaos" && typeof BeachChaos !== "undefined") {
-        BeachChaos.destroy();
-      }
-
-      this.goToMap(false);
-    });
+    const app = document.getElementById("app");
+    app?.addEventListener("click", onBackToMap, true);
+    app?.addEventListener("pointerup", onBackToMap, true);
   },
 
   destroyActiveScreens(skip) {

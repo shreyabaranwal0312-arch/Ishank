@@ -177,35 +177,31 @@ body {
 .btn-back {
   font-size: 0.5rem;
   padding: 10px 14px;
-  margin-bottom: 16px;
   background: rgba(0, 0, 0, 0.35);
   border: 3px solid var(--panel-border);
   color: var(--secondary);
   cursor: pointer;
 }
 
-/* Back-to-map — always above HUD (z-index 100) and clickable */
+/* Back-to-map — fixed below HUD, always clickable in every chapter */
 #btn-back-map,
 [id$="-back-map"] {
-  z-index: 110;
+  position: fixed !important;
+  top: calc(var(--hud-height, 132px) + 10px) !important;
+  left: 12px !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  z-index: 110 !important;
+  pointer-events: auto !important;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.hh-back,
-.mf-back,
-.bc-back,
-.pk-back,
-.jd-back,
-.owl-back,
-.lm-back,
-.ah-back,
-.bv-back,
-.sv-back {
-  top: calc(var(--hud-height) + 8px);
-}
-
-#screen-dream-sanctuary .ds-back {
-  top: 10px;
+/* Dream Sanctuary hides the HUD */
+#screen-dream-sanctuary.screen--active [id$="-back-map"] {
+  top: 12px !important;
 }
 
 @keyframes btn-sparkle {

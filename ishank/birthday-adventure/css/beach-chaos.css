@@ -10,16 +10,11 @@
 }
 
 .bc-back {
-  position: absolute;
-  top: 8px;
-  left: 10px;
-  z-index: 50;
   font-size: 0.45rem;
   padding: 8px 12px;
   background: rgba(15, 40, 60, 0.9);
   border: 3px solid #f9c74f;
   color: #ffe8a0;
-  cursor: pointer;
 }
 
 .bc-title {

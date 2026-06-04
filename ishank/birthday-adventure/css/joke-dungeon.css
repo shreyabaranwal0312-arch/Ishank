@@ -11,16 +11,11 @@
 }
 
 .jd-back {
-  position: absolute;
-  top: 8px;
-  left: 10px;
-  z-index: 50;
   font-size: 0.62rem;
   padding: 10px 16px;
   background: rgba(30, 10, 40, 0.92);
   border: 3px solid #a855f7;
   color: #e9d5ff;
-  cursor: pointer;
 }
 
 .jd-header {
