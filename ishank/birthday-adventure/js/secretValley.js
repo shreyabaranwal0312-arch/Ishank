@@ -24,6 +24,8 @@ const SecretValley = {
     this.updateQuestLog();
     this.renderQuestRunes();
     this.renderQuestStones();
+    this.syncHeartPick();
+    this.syncSkipButton();
 
     const state = this.getState();
     if (
@@ -140,6 +142,72 @@ const SecretValley = {
       this.hideComplete();
       App.goToMap(false);
     });
+
+    document.getElementById("sv-collect-heart")?.addEventListener("click", () => {
+      this.collectHeartFallback();
+    });
+
+    document.getElementById("sv-skip-hunt")?.addEventListener("click", () => {
+      this.skipHunt();
+    });
+
+    document.getElementById("sv-quest-objects")?.addEventListener("click", (e) => {
+      const pick = e.target.closest("[data-pick-treasure]");
+      if (pick) this.collectTreasure(pick.dataset.pickTreasure);
+    });
+  },
+
+  syncHeartPick() {
+    const btn = document.getElementById("sv-collect-heart");
+    if (!btn) return;
+    const found = this.isFound("heart");
+    btn.hidden = found;
+    btn.disabled = found;
+  },
+
+  syncSkipButton() {
+    const btn = document.getElementById("sv-skip-hunt");
+    if (!btn) return;
+    const done = isCompleted(this.getState(), "secret-valley");
+    btn.hidden = done;
+    btn.disabled = done;
+  },
+
+  collectHeartFallback() {
+    if (this.isFound("heart")) return;
+    AudioEngine.playSfx("select");
+    this.collectTreasure("heart");
+  },
+
+  skipHunt() {
+    const state = this.getState();
+    if (isCompleted(state, "secret-valley")) {
+      AudioEngine.playSfx("select");
+      App.goToMap(false);
+      return;
+    }
+
+    const ok = window.confirm(
+      "Skip the Secret Valley hunt?\n\nAll treasures will be marked found, the area will complete, and Open When Library will unlock on the kingdom map.",
+    );
+    if (!ok) return;
+
+    SECRET_VALLEY_TREASURES.forEach((t) => {
+      if (!state.secretValley.found.includes(t.id)) {
+        state.secretValley.found.push(t.id);
+      }
+    });
+    this.persist();
+    this.hideFoundPopup();
+    this.syncTreasures();
+    this.syncHeartPick();
+    this.updateQuestLog();
+    this.renderQuestRunes();
+    this.renderQuestStones();
+    Hud.render(state);
+    this.showWhisper("The meadow gifts you its memories — onward to the next chapter.");
+    AudioEngine.playSfx("success");
+    this.finishHunt();
   },
 
   clickHotspot(id) {
@@ -207,11 +275,16 @@ const SecretValley = {
 
     list.innerHTML = SECRET_VALLEY_TREASURES.map((t) => {
       const found = this.isFound(t.id);
+      const pickBtn =
+        !found && t.id === "heart"
+          ? `<button type="button" class="sv-quest-pick font-pixel" data-pick-treasure="heart">Collect</button>`
+          : "";
       return `
         <li class="sv-quest-row ${found ? "sv-quest-row--done" : ""}">
           <span class="sv-quest-row__icon">${t.emoji}</span>
           <span class="sv-quest-row__name">${t.name}</span>
           <span class="sv-quest-row__mark">${found ? "✓" : "?"}</span>
+          ${pickBtn}
         </li>`;
     }).join("");
 
@@ -256,6 +329,8 @@ const SecretValley = {
 
     AudioEngine.playSfx("success");
     this.syncTreasures();
+    this.syncHeartPick();
+    this.syncSkipButton();
     this.updateQuestLog();
     this.renderQuestRunes();
     this.renderQuestStones();
@@ -343,6 +418,8 @@ const SecretValley = {
     }
 
     this.syncGate();
+    this.syncHeartPick();
+    this.syncSkipButton();
     this.renderQuestStones();
     Hud.render(this.getState());
 
