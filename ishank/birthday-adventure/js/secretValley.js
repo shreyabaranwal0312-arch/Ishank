@@ -109,10 +109,19 @@ const SecretValley = {
     if (this._bound) return;
     this._bound = true;
 
-    document.getElementById("sv-treasures")?.addEventListener("click", (e) => {
+    const onTreasureActivate = (e) => {
+      if (e.button !== undefined && e.button !== 0) return;
       const btn = e.target.closest(".sv-treasure");
-      if (btn && !btn.disabled) this.collectTreasure(btn.dataset.treasure);
-    });
+      if (btn && !btn.disabled) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.collectTreasure(btn.dataset.treasure);
+      }
+    };
+
+    const treasures = document.getElementById("sv-treasures");
+    treasures?.addEventListener("click", onTreasureActivate);
+    treasures?.addEventListener("pointerup", onTreasureActivate);
 
     document.getElementById("sv-hotspots")?.addEventListener("click", (e) => {
       const btn = e.target.closest(".sv-hotspot");
