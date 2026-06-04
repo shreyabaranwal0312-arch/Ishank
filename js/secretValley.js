@@ -146,20 +146,6 @@ const SecretValley = {
       this.collectHeartFallback();
     });
 
-    document.getElementById("sv-skip-hunt")?.addEventListener("click", () => {
-      this.showSkipModal();
-    });
-
-    document.getElementById("sv-skip-confirm")?.addEventListener("click", () => {
-      this.hideSkipModal();
-      this.skipHunt(true);
-    });
-
-    document.getElementById("sv-skip-cancel")?.addEventListener("click", () => {
-      AudioEngine.playSfx("select");
-      this.hideSkipModal();
-    });
-
     document.getElementById("sv-quest-objects")?.addEventListener("click", (e) => {
       const pick = e.target.closest("[data-pick-treasure]");
       if (pick) this.collectTreasure(pick.dataset.pickTreasure);
@@ -168,73 +154,22 @@ const SecretValley = {
 
   syncStuckBar() {
     const heartBtn = document.getElementById("sv-collect-heart");
-    const skipBtn = document.getElementById("sv-skip-hunt");
     const bar = document.querySelector(".sv-stuck-bar");
     const done = isCompleted(this.getState(), "secret-valley");
     const heartFound = this.isFound("heart");
+    const showBar = !done && !heartFound;
 
     if (heartBtn) {
-      heartBtn.hidden = heartFound || done;
-      heartBtn.disabled = heartFound || done;
+      heartBtn.hidden = !showBar;
+      heartBtn.disabled = !showBar;
     }
-    if (skipBtn) {
-      skipBtn.hidden = done;
-      skipBtn.disabled = done;
-    }
-    if (bar) bar.hidden = done;
-  },
-
-  showSkipModal() {
-    if (isCompleted(this.getState(), "secret-valley")) {
-      App.goToMap(false);
-      return;
-    }
-    AudioEngine.playSfx("select");
-    const modal = document.getElementById("sv-skip-modal");
-    modal?.classList.add("is-open");
-    modal?.setAttribute("aria-hidden", "false");
-  },
-
-  hideSkipModal() {
-    document.getElementById("sv-skip-modal")?.classList.remove("is-open");
-    document.getElementById("sv-skip-modal")?.setAttribute("aria-hidden", "true");
+    if (bar) bar.hidden = !showBar;
   },
 
   collectHeartFallback() {
     if (this.isFound("heart")) return;
     AudioEngine.playSfx("select");
     this.collectTreasure("heart");
-  },
-
-  skipHunt(confirmed) {
-    const state = this.getState();
-    if (isCompleted(state, "secret-valley")) {
-      AudioEngine.playSfx("select");
-      App.goToMap(false);
-      return;
-    }
-
-    if (!confirmed) {
-      this.showSkipModal();
-      return;
-    }
-
-    SECRET_VALLEY_TREASURES.forEach((t) => {
-      if (!state.secretValley.found.includes(t.id)) {
-        state.secretValley.found.push(t.id);
-      }
-    });
-    this.persist();
-    this.hideFoundPopup();
-    this.syncTreasures();
-    this.syncStuckBar();
-    this.updateQuestLog();
-    this.renderQuestRunes();
-    this.renderQuestStones();
-    Hud.render(state);
-    this.showWhisper("The meadow gifts you its memories — onward to the next chapter.");
-    AudioEngine.playSfx("success");
-    this.finishHunt();
   },
 
   clickHotspot(id) {
@@ -483,7 +418,6 @@ const SecretValley = {
     if (this.finishTimer) clearTimeout(this.finishTimer);
     if (this._whisperTimer) clearTimeout(this._whisperTimer);
     this.hideFoundPopup();
-    this.hideSkipModal();
     this.hideComplete();
     document.getElementById("sv-stage")?.classList.remove("sv-stage--celebrate", "sv-stage--finale");
   },
